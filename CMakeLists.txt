@@ -9,4 +9,5 @@ file(GLOB HEADERS include/*.h)
 file(GLOB SOURCES src/*.cpp)
 
 include_directories(include)
+include_directories(Eigen)
 add_executable(${THIS} ${HEADERS} ${SOURCES})
