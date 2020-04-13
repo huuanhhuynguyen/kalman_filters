@@ -1,14 +1,26 @@
-#include <iostream>
-#include "Eigen/Dense"
 
-using Eigen::MatrixXd;
 
 int main()
 {
-    MatrixXd m(2,2);
-    m(0,0) = 3;
-    m(1,0) = 2.5;
-    m(0,1) = -1;
-    m(1,1) = m(1,0) + m(0,1);
-    std::cout << m << std::endl;
+    // read measurement and ground truth data
+
+    // Parse data
+
+    // Initialize a concrete kalman filter, using Enum and factory pattern
+        // Option 1: Linear KF
+        // Option 2: EKF
+        // Option 3: UKF
+
+    // Update & Predict -> Prediction data
+
+    // Calculate RMSE
+
+    // Iterate over the time stamp
+        // Visualize measurement
+        // Visualize prediction
+        // Visualize ground-truth
+        // Visualize RMSE as a chart
+        // Display as a video
+
+    return 0;
 }
