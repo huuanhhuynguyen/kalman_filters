@@ -27,7 +27,7 @@ public:
     X = VectorXd::Zero(Sx);
     P = MatrixXd::Identity(Sx, Sx);
     Q = MatrixXd::Identity(Sx, Sx);
-    R = MatrixXd::Zero(Sz, Sz);
+    R = MatrixXd::Identity(Sz, Sz);
     K = MatrixXd::Zero(Sx, Sz);
     I = MatrixXd::Identity(Sx, Sx);
   };

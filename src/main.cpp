@@ -6,7 +6,6 @@
 
 int main()
 {
-
   // read measurement and ground truth data
   std::vector<Sample> measurement, gt;
   std::string file{"../data/sample-laser-radar-measurement-data-2.txt"};
@@ -16,9 +15,8 @@ int main()
   auto pKF = KFFactory::manufacture(KFType::EXTENDED,
                                     std::make_unique<VelocityModel>());
 
-  // Update & Predict -> Prediction data
+  // Update & Predict
   std::vector<double> x_hat, y_hat;
-
   for (int i = 1; i < measurement.size(); ++i) {
     auto& m = measurement[i];
     double dt = double(measurement[i].t - measurement[i-1].t) / 1.0e6;
@@ -31,8 +29,8 @@ int main()
       u << 0;
       pKF->update(z, u, dt);
       auto X_hat = pKF->predict(u, dt);
-      x_hat.emplace_back(X_hat[0]);
-      y_hat.emplace_back(X_hat[1]);
+      x_hat.push_back(X_hat[0]);
+      y_hat.push_back(X_hat[1]);
     }
   }
 
@@ -44,6 +42,8 @@ int main()
   plt::figure();
   //plt::xlim(3, 13);
   //plt::ylim(-14, 1);
+  plt::xlim(0, 210);
+  plt::ylim(0, 40);
 
   // Visualize measurement
   vis_meas(measurement);

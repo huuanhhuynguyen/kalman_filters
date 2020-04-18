@@ -10,7 +10,7 @@ public:
   MatrixXd F;        // Transition Matrix
   MatrixXd G;        // Input Matrix
   MatrixXd H;        // Output Matrix
-  virtual void update(float dt) = 0;
+  virtual void update(double dt) = 0;
 };
 
 class AccelerationModel : public IModel {
@@ -25,7 +25,7 @@ public:
     F = MatrixXd::Identity(6, 6);
   }
 
-  void update(float dt) override {
+  void update(double dt) override {
     float dt2 = dt * dt / 2;
     F = MatrixXd(6, 6);
     F << 1, dt, dt2, 0,  0,   0,
@@ -47,7 +47,7 @@ public:
     F = MatrixXd::Identity(4, 4);
   }
 
-  void update(float dt) override {
+  void update(double dt) override {
     F = MatrixXd(4, 4);
     F << 1, dt, 0, 0,
          0,  1, 0, 0,
