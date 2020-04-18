@@ -1,9 +1,11 @@
 #include <vector>
 #include "sample.h"
 #include "angle.h"
+#include "visualize.h"
 
 int main()
 {
+
   // read measurement and ground truth data
   std::vector<Sample> measurement, gt;
   std::string file{"../data/sample-laser-radar-measurement-data-1.txt"};
@@ -21,12 +23,20 @@ int main()
   // Estimate heading angle of gt for visualisation
   const auto headings = estimate_headings(gt);
 
-  // Iterate over the time stamp
-      // Visualize measurement
-      // Visualize prediction
-      // Visualize ground-truth
-      // Visualize RMSE as a chart
-      // Display as a video
+  plt::figure();
+  plt::xlim(3, 13);
+  plt::ylim(-14, 1);
+
+  // Visualize measurement
+  vis_meas(measurement);
+
+  // Visualize ground-truth
+  vis_gt(gt);
+
+  // Visualize prediction
+  // Visualize RMSE as a chart
+
+  plt::show();
 
   return 0;
 }
