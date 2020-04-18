@@ -1,6 +1,6 @@
 #include <vector>
 #include "sample.h"
-#include "EKF"
+#include "KFFactory.h"
 #include "angle.h"
 #include "visualize.h"
 
@@ -12,14 +12,29 @@ int main()
   std::string file{"../data/sample-laser-radar-measurement-data-1.txt"};
   read(file, measurement, gt);
 
-  // Initialize a concrete kalman filter, using Enum and factory pattern
-      // Option 1: Linear KF
-      // Option 2: EKF
-      // Option 3: UKF
+  // Initialize a concrete kalman filter
+  auto pKF = KFFactory::manufacture(KFType::EXTENDED,
+                                    std::make_unique<VelocityModel>());
 
   // Update & Predict -> Prediction data
   std::vector<float> x_hat, y_hat;
 
+  for (int i = 1; i < measurement.size(); ++i) {
+    auto& m = measurement[i];
+    float dt = float(measurement[i].t - measurement[i-1].t) / 1.0e6;
+    if (m.sensor == Sample::Sensor::LIDAR) {
+      auto x = m.data[0];
+      auto y = m.data[1];
+      VectorXd z(2);
+      z << x, y;
+      VectorXd u(1);
+      u << 0;
+      pKF->update(z, u, dt);
+      auto X_hat = pKF->predict(u, dt);
+      x_hat.emplace_back(X_hat[0]);
+      y_hat.emplace_back(X_hat[1]);
+    }
+  }
 
   // Calculate RMSE
 
