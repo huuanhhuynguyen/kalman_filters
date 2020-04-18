@@ -2,6 +2,8 @@
 #define KALMAN_FILTERS_CPP_EKF_H
 
 #include "KF.h"
+#include "model.h"
+#include <memory>
 
 /**
  *  Linear Kalman Filter
@@ -14,25 +16,35 @@
  *      x = x + K * (z - H * x)
  *      P = (I - K * H) * P * (I - K * H)t + K * R * Kt
  */
-class EKF {
+class EKF : public IKalmanFilter {
 public:
+  using MPtr = std::unique_ptr<IModel>;
 
-  void update(const VectorXd& z, const VectorXd* u, float dt);
-  VectorXd predict(float dt);
+  explicit EKF(MPtr pModel) : pM{std::move(pModel)} {
+    auto Sz = pM->H.rows();
+    auto Sx = pM->H.cols();
+    auto Su = pM->G.cols();
+    X = VectorXd::Zero(Sx);
+    P = MatrixXd::Identity(Sx, Sx);
+    Q = MatrixXd::Identity(Sx, Sx);
+    R = MatrixXd::Zero(Sz, Sz);
+    K = MatrixXd::Zero(Sx, Sz);
+    I = MatrixXd::Identity(Sx, Sx);
+  };
+
+  void update(const VectorXd& z, const VectorXd& u, float dt) override;
+  VectorXd predict(const VectorXd& u, float dt) override;
 
 private:
-  MatrixXd F;        // Transition Matrix
-  MatrixXd G;        // Input Matrix
-  MatrixXd P;        // Estimate Uncertainty (Covariance Matrix)
-  MatrixXd Q;        // Process Uncertainty
-  MatrixXd K;        // Kalman Gain
-  MatrixXd R;        // Measurement Uncertainty
-  MatrixXd H;        // Output Matrix
-  static MatrixXd I; // Identity Matrix
+  MPtr pM;
 
-  VectorXd x;        // Current State Vector
+  MatrixXd P;  // Estimate Uncertainty (Covariance Matrix)
+  MatrixXd Q;  // Process Uncertainty
+  MatrixXd R;  // Measurement Uncertainty
+  MatrixXd K;  // Kalman Gain
+  MatrixXd I;  // Identity Matrix
 
-  void _set_F(float dt) {};
+  VectorXd X;  // Current State Vector
 };
 
 #endif //KALMAN_FILTERS_CPP_EKF_H
