@@ -7,10 +7,10 @@
  *  Linear Kalman Filter
  *  Equations: https://www.kalmanfilter.net/multiSummary.html
  *  Update equations:
- *      x1 = F * x + G * u
+ *      x = F * x + G * u
  *      P = F * P * Ft + Q
  *  Predict equations:
- *      K = P * H * (H * P * Ht + R).inv()
+ *      K = P * Ht * (H * P * Ht + R).inv()
  *      x = x + K * (z - H * x)
  *      P = (I - K * H) * P * (I - K * H)t + K * R * Kt
  */

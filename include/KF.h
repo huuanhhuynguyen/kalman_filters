@@ -10,9 +10,10 @@ using namespace Eigen;
  * */
 class IKalmanFilter {
 public:
-  virtual void update(const VectorXd& measurement,
-                      const VectorXd* input, float dt) = 0;
-  virtual VectorXd predict(float dt) = 0;
+  virtual void update(const VectorXd& z, const VectorXd& u, float dt) = 0;
+
+  /// Returns the estimated state
+  virtual VectorXd predict(const VectorXd& u, float dt) = 0;
 };
 
 #endif //SELF_03_KALMAN_FILTERS_CPP_KF_H

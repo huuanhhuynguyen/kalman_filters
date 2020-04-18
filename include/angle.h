@@ -26,7 +26,7 @@ estimate_headings(const std::vector<Sample>& gt)
     auto y = g.data[1];
     auto x1 = g1.data[0];
     auto y1 = g1.data[0];
-    auto heading = atan2(y1 - y, x1 - x + 0.000001); // avoid zero division
+    auto heading = atan2(y1 - y, x1 - x + 1.0e-6); // avoid zero division
     normalize(heading);
     headings.emplace_back(heading);
   }
