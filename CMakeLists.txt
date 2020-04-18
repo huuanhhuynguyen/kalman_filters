@@ -11,7 +11,7 @@ include_directories(matplotlib-cpp)
 
 file(GLOB HEADERS include/*.h)
 file(GLOB SOURCES src/*.cpp)
-add_executable(${THIS} ${HEADERS} ${SOURCES} include/visualize.h)
+add_executable(${THIS} ${HEADERS} ${SOURCES})
 
 find_package(Python2 COMPONENTS Development)
 target_include_directories(${THIS} PRIVATE ${Python2_INCLUDE_DIRS})

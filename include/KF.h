@@ -3,8 +3,6 @@
 
 #include "Eigen/Dense"
 
-namespace kf {
-
 using namespace Eigen;
 
 /**
@@ -16,7 +14,5 @@ public:
                       const VectorXd* input, float dt) = 0;
   virtual VectorXd predict(float dt) = 0;
 };
-
-} // namespace kf
 
 #endif //SELF_03_KALMAN_FILTERS_CPP_KF_H

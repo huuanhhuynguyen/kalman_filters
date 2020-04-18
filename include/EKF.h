@@ -3,8 +3,6 @@
 
 #include "KF.h"
 
-namespace kf {
-
 /**
  *  Linear Kalman Filter
  *  Equations: https://www.kalmanfilter.net/multiSummary.html
@@ -36,7 +34,5 @@ private:
 
   void _set_F(float dt) {};
 };
-
-} // namespace kf
 
 #endif //KALMAN_FILTERS_CPP_EKF_H

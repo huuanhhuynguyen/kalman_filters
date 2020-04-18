@@ -1,5 +1,6 @@
 #include <vector>
 #include "sample.h"
+#include "EKF"
 #include "angle.h"
 #include "visualize.h"
 
@@ -18,10 +19,11 @@ int main()
 
   // Update & Predict -> Prediction data
 
+
   // Calculate RMSE
 
   // Estimate heading angle of gt for visualisation
-  const auto headings = estimate_headings(gt);
+  //const auto headings = estimate_headings(gt);
 
   plt::figure();
   plt::xlim(3, 13);
@@ -37,6 +39,5 @@ int main()
   // Visualize RMSE as a chart
 
   plt::show();
-
   return 0;
 }
