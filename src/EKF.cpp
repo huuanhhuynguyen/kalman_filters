@@ -1,7 +1,7 @@
 #include "EKF.h"
 #include "iostream"
 
-void EKF::update(const VectorXd &z, const VectorXd& u, float dt)
+void EKF::update(const VectorXd &z, const VectorXd& u, double dt)
 {
   pM->update(dt);
   K = P * pM->H.transpose() * (pM->H * P * pM->H.transpose() + R).inverse();
@@ -9,7 +9,7 @@ void EKF::update(const VectorXd &z, const VectorXd& u, float dt)
   P = (I - K * pM->H) * P * (I - K * pM->H).transpose() + K * R * K.transpose();
 }
 
-VectorXd EKF::predict(const VectorXd& u, float dt)
+VectorXd EKF::predict(const VectorXd& u, double dt)
 {
   pM->update(dt);
   X = pM->F * X + pM->G * u;

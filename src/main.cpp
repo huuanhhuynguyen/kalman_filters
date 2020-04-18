@@ -17,11 +17,11 @@ int main()
                                     std::make_unique<VelocityModel>());
 
   // Update & Predict -> Prediction data
-  std::vector<float> x_hat, y_hat;
+  std::vector<double> x_hat, y_hat;
 
   for (int i = 1; i < measurement.size(); ++i) {
     auto& m = measurement[i];
-    float dt = float(measurement[i].t - measurement[i-1].t) / 1.0e6;
+    double dt = double(measurement[i].t - measurement[i-1].t) / 1.0e6;
     if (m.sensor == Sample::Sensor::LIDAR) {
       auto x = m.data[0];
       auto y = m.data[1];

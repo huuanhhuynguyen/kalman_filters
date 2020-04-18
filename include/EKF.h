@@ -32,8 +32,8 @@ public:
     I = MatrixXd::Identity(Sx, Sx);
   };
 
-  void update(const VectorXd& z, const VectorXd& u, float dt) override;
-  VectorXd predict(const VectorXd& u, float dt) override;
+  void update(const VectorXd& z, const VectorXd& u, double dt) override;
+  VectorXd predict(const VectorXd& u, double dt) override;
 
 private:
   MPtr pM;

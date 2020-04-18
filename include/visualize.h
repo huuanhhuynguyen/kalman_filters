@@ -9,7 +9,7 @@ namespace plt = matplotlibcpp;
 void vis_meas(const std::vector<Sample>& m)
 {
   auto get_x = [](const auto& m) {
-    float x = 0;
+    double x = 0;
     if (m.sensor == Sample::Sensor::LIDAR) {
       x = m.data[0];
     } else {
@@ -21,7 +21,7 @@ void vis_meas(const std::vector<Sample>& m)
   };
 
   auto get_y = [](const auto& m) {
-    float y = 0;
+    double y = 0;
     if (m.sensor == Sample::Sensor::LIDAR) {
       y = m.data[1];
     } else {
@@ -32,7 +32,7 @@ void vis_meas(const std::vector<Sample>& m)
     return y;
   };
 
-  std::vector<float> x, y;
+  std::vector<double> x, y;
   std::transform(m.begin(), m.end(), std::back_inserter(x), get_x);
   std::transform(m.begin(), m.end(), std::back_inserter(y), get_y);
   plt::scatter(x, y, /*s=*/3, {{"color", "blue"}});
@@ -40,13 +40,13 @@ void vis_meas(const std::vector<Sample>& m)
 
 void vis_gt(const std::vector<Sample>& gt)
 {
-  std::vector<float> x_gt, y_gt;
+  std::vector<double> x_gt, y_gt;
   std::transform(gt.begin(), gt.end(), std::back_inserter(x_gt), [](const auto& g){ return g.data[0]; });
   std::transform(gt.begin(), gt.end(), std::back_inserter(y_gt), [](const auto& g){ return g.data[1]; });
   plt::scatter(x_gt, y_gt, /*s=*/3, {{"color", "red"}});
 }
 
-void vis_prediction(const std::vector<float>& x, const std::vector<float>& y)
+void vis_prediction(const std::vector<double>& x, const std::vector<double>& y)
 {
   plt::scatter(x, y, /*s=*/3, {{"color", "green"}});
 }
