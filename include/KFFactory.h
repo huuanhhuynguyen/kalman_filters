@@ -19,7 +19,7 @@ public:
       case KFType::EXTENDED:
       case KFType::UNSCENTED:
       default:
-        return std::make_unique<EKF>(std::move(pModel));
+        return std::make_unique<LKF>(std::move(pModel));
     }
   }
 };

@@ -16,11 +16,11 @@
  *      x = x + K * (z - H * x)
  *      P = (I - K * H) * P * (I - K * H)t + K * R * Kt
  */
-class EKF : public IKalmanFilter {
+class LKF : public IKalmanFilter {
 public:
   using MPtr = std::unique_ptr<IModel>;
 
-  explicit EKF(MPtr pModel) : pM{std::move(pModel)} {
+  explicit LKF(MPtr pModel) : pM{std::move(pModel)} {
     auto Sz = pM->H.rows();
     auto Sx = pM->H.cols();
     auto Su = pM->G.cols();

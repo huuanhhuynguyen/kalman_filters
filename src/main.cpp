@@ -9,7 +9,7 @@ int main()
 
   // read measurement and ground truth data
   std::vector<Sample> measurement, gt;
-  std::string file{"../data/sample-laser-radar-measurement-data-1.txt"};
+  std::string file{"../data/sample-laser-radar-measurement-data-2.txt"};
   read(file, measurement, gt);
 
   // Initialize a concrete kalman filter
@@ -42,8 +42,8 @@ int main()
   //const auto headings = estimate_headings(gt);
 
   plt::figure();
-  plt::xlim(3, 13);
-  plt::ylim(-14, 1);
+  //plt::xlim(3, 13);
+  //plt::ylim(-14, 1);
 
   // Visualize measurement
   vis_meas(measurement);
