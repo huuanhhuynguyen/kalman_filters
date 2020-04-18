@@ -46,4 +46,9 @@ void vis_gt(const std::vector<Sample>& gt)
   plt::scatter(x_gt, y_gt, /*s=*/3, {{"color", "red"}});
 }
 
+void vis_prediction(const std::vector<float>& x, const std::vector<float>& y)
+{
+  plt::scatter(x, y, /*s=*/3, {{"color", "green"}});
+}
+
 #endif //KALMAN_FILTERS_CPP_VISUALIZE_H

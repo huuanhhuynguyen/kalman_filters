@@ -18,6 +18,7 @@ int main()
       // Option 3: UKF
 
   // Update & Predict -> Prediction data
+  std::vector<float> x_hat, y_hat;
 
 
   // Calculate RMSE
@@ -36,6 +37,7 @@ int main()
   vis_gt(gt);
 
   // Visualize prediction
+  vis_prediction(x_hat, y_hat);
   // Visualize RMSE as a chart
 
   plt::show();
