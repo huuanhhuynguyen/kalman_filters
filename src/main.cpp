@@ -1,5 +1,6 @@
 #include <vector>
 #include "sample.h"
+#include "angle.h"
 
 int main()
 {
@@ -7,8 +8,6 @@ int main()
   std::vector<Sample> measurement, gt;
   std::string file{"../data/sample-laser-radar-measurement-data-1.txt"};
   read(file, measurement, gt);
-
-  // Parse data
 
   // Initialize a concrete kalman filter, using Enum and factory pattern
       // Option 1: Linear KF
@@ -18,6 +17,9 @@ int main()
   // Update & Predict -> Prediction data
 
   // Calculate RMSE
+
+  // Estimate heading angle of gt for visualisation
+  const auto headings = estimate_headings(gt);
 
   // Iterate over the time stamp
       // Visualize measurement
