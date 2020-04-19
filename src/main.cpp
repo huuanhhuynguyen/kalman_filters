@@ -1,6 +1,7 @@
 #include <vector>
 #include "sample.h"
 #include "KFFactory.h"
+#include "fusion.h"
 #include "angle.h"
 #include "visualize.h"
 
@@ -8,31 +9,23 @@ int main()
 {
   // read measurement and ground truth data
   std::vector<Sample> measurement, gt;
-  std::string file{"../data/sample-laser-radar-measurement-data-2.txt"};
+  std::string file{"../data/sample-laser-radar-measurement-data-1.txt"};
   read(file, measurement, gt);
 
-  // Initialize a concrete kalman filter
-  auto pKF = KFFactory::manufacture(KFType::EXTENDED,
-                                    std::make_unique<VelocityModel>());
+  // Initialize kalman filters
+  auto pLKF = KFFactory::manufacture(KFType::EXTENDED,
+                                    std::make_unique<LaserModel>());
+  auto pRKF = KFFactory::manufacture(KFType::EXTENDED,
+                                     std::make_unique<RadarModel>());
+
+  // Init intial state
+  VectorXd X0(4);
+  X0 << 1.5, 0, -0.1, 0;
+
+  Fusion fusion(std::move(pLKF), std::move(pRKF), X0);
 
   // Update & Predict
-  std::vector<double> x_hat, y_hat;
-  for (int i = 1; i < measurement.size(); ++i) {
-    auto& m = measurement[i];
-    double dt = double(measurement[i].t - measurement[i-1].t) / 1.0e6;
-    if (m.sensor == Sample::Sensor::LIDAR) {
-      auto x = m.data[0];
-      auto y = m.data[1];
-      VectorXd z(2);
-      z << x, y;
-      VectorXd u(1);
-      u << 0;
-      pKF->update(z, u, dt);
-      auto X_hat = pKF->predict(u, dt);
-      x_hat.push_back(X_hat[0]);
-      y_hat.push_back(X_hat[1]);
-    }
-  }
+  auto p = fusion.process(measurement);
 
   // Calculate RMSE
 
@@ -40,10 +33,10 @@ int main()
   //const auto headings = estimate_headings(gt);
 
   plt::figure();
-  //plt::xlim(3, 13);
-  //plt::ylim(-14, 1);
-  plt::xlim(0, 210);
-  plt::ylim(0, 40);
+  plt::xlim(3, 13);
+  plt::ylim(-14, 1);
+  //plt::xlim(0, 210);
+  //plt::ylim(0, 40);
 
   // Visualize measurement
   vis_meas(measurement);
@@ -52,7 +45,11 @@ int main()
   vis_gt(gt);
 
   // Visualize prediction
+  std::vector<double> x_hat, y_hat;
+  std::transform(p.begin(), p.end(), std::back_inserter(x_hat), [](const auto& p){ return p.x; });
+  std::transform(p.begin(), p.end(), std::back_inserter(y_hat), [](const auto& p){ return p.y; });
   vis_prediction(x_hat, y_hat);
+
   // Visualize RMSE as a chart
 
   plt::show();
