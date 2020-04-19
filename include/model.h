@@ -8,14 +8,14 @@ using namespace Eigen;
 /**
  * Generic (Linear or Non-Linear) Model Interface.
  * A model is mathematically represented as follows:
- *  x1 = f(x) + g(u)
- *  z  = h(x)
+ *   x1 = f(x) + g(u)
+ *   z  = h(x)
  * If the model is linear, then:
- * x1 = F * x + G * u
- * z  = H * x
+ *   x1 = F * x + G * u
+ *   z  = H * x
  * If the model is non-linear, its linearized at a certain x0 is:
- * x1 = J_F * x + J_G * u
- * z  = J_H * x
+ *   x1 = J_F * x + J_G * u
+ *   z  = J_H * x
  * where J_K is Jacobian matrix at x0 of the K matrix, K = F, G, or H.
  */
 class IModel {
