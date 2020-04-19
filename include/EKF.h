@@ -37,7 +37,7 @@ public:
   VectorXd predict(const VectorXd& u, double dt) override;
 
 private:
-  MPtr pM;
+  MPtr pM;     // Model Pointer
 
   MatrixXd P;  // Estimate Uncertainty (Covariance Matrix)
   MatrixXd Q;  // Process Uncertainty

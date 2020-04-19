@@ -15,8 +15,8 @@ public:
 
   static KFPtr manufacture(KFType type, ModelPtr pModel) {
     switch (type) {
-      case KFType::EXTENDED:
       case KFType::UNSCENTED:
+      case KFType::EXTENDED:
       default:
         return std::make_unique<EKF>(std::move(pModel));
     }

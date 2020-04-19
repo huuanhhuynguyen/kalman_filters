@@ -1,19 +1,23 @@
 #include "EKF.h"
-#include "iostream"
 
-void LKF::update(const VectorXd &z, const VectorXd& u, double dt)
+void EKF::update(const VectorXd &z, const VectorXd& u, double dt)
 {
-  pM->update(dt);
-  K = P * pM->H.transpose() * (pM->H * P * pM->H.transpose() + R).inverse();
-  X = X + K * (z - pM->H * X);
-  P = (I - K * pM->H) * P * (I - K * pM->H).transpose() + K * R * K.transpose();
+  pM->update(dt, X);
+  MatrixXd H = pM->H();
+
+  K = P * H.transpose() * (H * P * H.transpose() + R).inverse();
+  X = X + K * (z - H * X);
+  P = (I - K * H) * P * (I - K * H).transpose() + K * R * K.transpose();
 }
 
-VectorXd LKF::predict(const VectorXd& u, double dt)
+VectorXd EKF::predict(const VectorXd& u, double dt)
 {
-  pM->update(dt);
-  X = pM->F * X + pM->G * u;
-  P = pM->F * P * pM->F.transpose() + Q;
+  pM->update(dt, X);
+  MatrixXd F = pM->F();
+  MatrixXd G = pM->G();
+
+  X = F * X + G * u;
+  P = F * P * F.transpose() + Q;
   return X;
 }
 

@@ -25,7 +25,7 @@ int main()
   Fusion fusion(std::move(pLKF), std::move(pRKF), X0);
 
   // Update & Predict
-  auto p = fusion.process(measurement);
+  auto positions = fusion.process(measurement);
 
   // Calculate RMSE
 
@@ -45,10 +45,7 @@ int main()
   vis_gt(gt);
 
   // Visualize prediction
-  std::vector<double> x_hat, y_hat;
-  std::transform(p.begin(), p.end(), std::back_inserter(x_hat), [](const auto& p){ return p.x; });
-  std::transform(p.begin(), p.end(), std::back_inserter(y_hat), [](const auto& p){ return p.y; });
-  vis_prediction(x_hat, y_hat);
+  vis_prediction(positions);
 
   // Visualize RMSE as a chart
 

@@ -23,13 +23,15 @@ public:
   virtual MatrixXd F() const = 0;  // Transition Matrix
   virtual MatrixXd G() const = 0;  // Input Matrix
   virtual MatrixXd H() const = 0;  // Output Matrix
-  /// Needs to be called before reading the matrices
+  /** Needs to be called before reading the matrices */
   virtual void update(double dt, const VectorXd& X0) = 0;
 };
 
 class ILinearModel : public IModel {
-  /// Linear model is a special case, where no linearization is needed (i.e
-  /// X0 is not needed)
+  /**
+   * Linear model is a special case, where no linearization is needed (i.e
+   *  X0 is not needed)
+   */
   void update(double dt, const VectorXd& X0) override {
     _update(dt);
   }
@@ -83,10 +85,7 @@ public:
   MatrixXd G() const override { return G_; }
   MatrixXd H() const override { return H_; }
 
-  void update(double dt, const VectorXd& X0) override {
-    _update_transition(dt);
-    H_ = _linearize_H(X0);
-  }
+  void update(double dt, const VectorXd& X0) override;
 
 private:
   MatrixXd F_, G_, H_;
@@ -99,42 +98,10 @@ private:
           0,  0, 0, 1;
   }
 
-  /// Returns jacobian matrix of H at X0
-  static MatrixXd _linearize_H(const VectorXd& X0) {
-    double x  = X0[0];
-    double vx = X0[1];
-    double y  = X0[2];
-    double vy = X0[3];
-
-    // equation r = sqrt(x*x + y*y)
-    double c1 = x*x + y*y;
-    double dr_dx = x / sqrt(c1);
-    double dr_dy = y / sqrt(c1);
-    double dr_dvx = 0;
-    double dr_dvy = 0;
-
-    // equation phi = arctan(y/x)
-    double dp_dx = -y / c1;
-    double dp_dy =  x / c1;
-    double dp_dvx = 0;
-    double dp_dvy = 0;
-
-    // equation rho_dot = sqrt(vx*vx + vy*vy - x*x - y*y)
-    double c2 = vx*vx + vy*vy - x*x - y*y;
-    double drd_dx = -x / sqrt(c2);
-    double drd_dy = -y / sqrt(c2);
-    double drd_dvx = vx / sqrt(c2);
-    double drd_dvy = vy / sqrt(c2);
-
-    MatrixXd J_H = MatrixXd(3, 4);
-    J_H << dr_dx,  dr_dy,  dr_dvx,  dr_dvy,
-           dp_dx,  dp_dy,  dp_dvx,  dp_dvy,
-           drd_dx, drd_dy, drd_dvx, drd_dvy;
-    return J_H;
-  }
+  /** Returns Jacobian matrix of H at X0 */
+  static MatrixXd _linearize_H(const VectorXd& X0);
 };
 
 //TODO save last dt to avoid recalculation
-//TODO avoid inline big functions
 
 #endif //KALMAN_FILTERS_CPP_MODEL_H

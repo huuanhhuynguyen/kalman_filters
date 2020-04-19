@@ -2,6 +2,7 @@
 #define KALMAN_FILTERS_CPP_VISUALIZE_H
 
 #include "sample.h"
+#include "fusion.h"
 #include "matplotlibcpp.h"
 
 namespace plt = matplotlibcpp;
@@ -46,8 +47,11 @@ void vis_gt(const std::vector<Sample>& gt)
   plt::scatter(x_gt, y_gt, /*s=*/3, {{"color", "red"}});
 }
 
-void vis_prediction(const std::vector<double>& x, const std::vector<double>& y)
+void vis_prediction(const std::vector<Position>& p)
 {
+  std::vector<double> x, y;
+  std::transform(p.begin(), p.end(), std::back_inserter(x), [](const auto& p){ return p.x; });
+  std::transform(p.begin(), p.end(), std::back_inserter(y), [](const auto& p){ return p.y; });
   plt::scatter(x, y, /*s=*/3, {{"color", "green"}});
 }
 

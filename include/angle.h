@@ -5,7 +5,8 @@
 #include <math.h>
 
 template <typename T>
-void normalize(T& angle) {
+void normalize(T& angle)
+{
   while (angle > 2*M_PI) {
     angle -= 2*M_PI;
   }
