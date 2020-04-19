@@ -5,7 +5,7 @@
 #include <memory>
 
 enum class KFType : uint8_t {
-  LINEAR, EXTENDED, UNSCENTED
+  EXTENDED, UNSCENTED,
 };
 
 class KFFactory {
@@ -15,11 +15,10 @@ public:
 
   static KFPtr manufacture(KFType type, ModelPtr pModel) {
     switch (type) {
-      case KFType::LINEAR:
       case KFType::EXTENDED:
       case KFType::UNSCENTED:
       default:
-        return std::make_unique<LKF>(std::move(pModel));
+        return std::make_unique<EKF>(std::move(pModel));
     }
   }
 };
