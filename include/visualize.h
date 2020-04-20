@@ -43,7 +43,7 @@ void vis_gt(const std::vector<Sample>& gt)
 {
   std::vector<double> x_gt, y_gt;
   std::transform(gt.begin(), gt.end(), std::back_inserter(x_gt), [](const auto& g){ return g.data[0]; });
-  std::transform(gt.begin(), gt.end(), std::back_inserter(y_gt), [](const auto& g){ return g.data[1]; });
+  std::transform(gt.begin(), gt.end(), std::back_inserter(y_gt), [](const auto& g){ return g.data[2]; });
   plt::scatter(x_gt, y_gt, /*s=*/3, {{"color", "red"}});
 }
 

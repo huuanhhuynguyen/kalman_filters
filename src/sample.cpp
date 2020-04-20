@@ -36,7 +36,7 @@ void _read_gt(std::ifstream& iss, Sample& sample_gt)
   iss >> vx_gt;
   iss >> vy_gt;
   sample_gt.data = Eigen::VectorXd(4);
-  sample_gt.data << x_gt, y_gt, vx_gt, vy_gt;
+  sample_gt.data << x_gt, vx_gt, y_gt, vy_gt;
 }
 } // unnamed namespace
 
