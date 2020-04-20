@@ -1,5 +1,5 @@
-#ifndef KALMAN_FILTERS_CPP_MODEL_H
-#define KALMAN_FILTERS_CPP_MODEL_H
+#ifndef KALMAN_FILTERS_CPP_NL_MODEL_H
+#define KALMAN_FILTERS_CPP_NL_MODEL_H
 
 #include "Eigen/Dense"
 
@@ -14,94 +14,48 @@ using namespace Eigen;
  *   x1 = F * x + G * u
  *   z  = H * x
  * If the model is non-linear, its linearized at a certain x0 is:
- *   x1 = J_F * x + J_G * u
- *   z  = J_H * x
- * where J_K is Jacobian matrix at x0 of the K matrix, K = F, G, or H.
+ *   x1 ~= f(x) + g(u)
+ *   z  = J_h * x
+ * where J_H is Jacobian matrix at x0 of the H matrix.
+ *
+ * J_f ana J_g are also needed for update Kalman Filter covariance matrix P.
  */
 class IModel {
 public:
-  virtual MatrixXd F() const = 0;  // Transition Matrix
-  virtual MatrixXd G() const = 0;  // Input Matrix
-  virtual MatrixXd H() const = 0;  // Output Matrix
-  /** Needs to be called before reading the matrices */
-  virtual void update(double dt, const VectorXd& X0) = 0;
-};
+  virtual ~IModel() = default;
 
-class ILinearModel : public IModel {
-  /**
-   * Linear model is a special case, where no linearization is needed (i.e
-   *  X0 is not needed)
-   */
-  void update(double dt, const VectorXd& X0) override {
-    _update(dt);
+  virtual VectorXd f(const VectorXd& X) const = 0;
+  virtual VectorXd g(const VectorXd& U) const = 0;
+  virtual VectorXd h(const VectorXd& X) const = 0;
+
+  MatrixXd J_f() const { return F; }
+  MatrixXd J_g() const { return G; }
+  MatrixXd J_h() const { return H; }  // Output Matrix
+
+  /** Needs to be called before reading the matrices */
+  void update(double dt, const VectorXd& X0) {
+    _update_dt(dt);
+    F = _linearize_F(X0);
+    G = _linearize_G(X0);
+    H = _linearize_H(X0);
   }
 
 protected:
-  virtual void _update(double dt) = 0;
+  MatrixXd F;  // Transition Matrix
+  MatrixXd G;  // Input Matrix
+  MatrixXd H;  // Output Matrix
+
+  /** Use dt to update member matrices */
+  virtual void _update_dt(double dt) = 0;
+
+  /** Linearize f() about X0 */
+  virtual MatrixXd _linearize_F(const VectorXd& X0) = 0;
+
+  /** Linearize g() about X0 */
+  virtual MatrixXd _linearize_G(const VectorXd& X0) = 0;
+
+  /** Linearize h() about X0 */
+  virtual MatrixXd _linearize_H(const VectorXd& X0) = 0;
 };
 
-class LaserModel : public ILinearModel {
-public:
-  explicit LaserModel() {
-    F_ = MatrixXd::Identity(4, 4);
-    G_ = MatrixXd::Zero(4, 1);
-    H_ = MatrixXd(2, 4);
-    H_ << 1, 0, 0, 0,
-          0, 0, 1, 0;
-  }
-  MatrixXd F() const override { return F_; }
-  MatrixXd G() const override { return G_; }
-  MatrixXd H() const override { return H_; }
-private:
-  MatrixXd F_, G_, H_;
-
-  void _update(double dt) override {
-    F_ = MatrixXd(4, 4);
-    F_ << 1, dt, 0, 0,
-        0,  1, 0, 0,
-        0,  0, 1, dt,
-        0,  0, 0, 1;
-  }
-};
-
-/**
- * Radar model is non-linear due to measurement equations:
- * state X = [x, vx, y, vy]
- * measurement Z = [rho, phi, rho_dot]
- *   x = rho * cos(phi)
- *   y = rho * sin(phi)
- *   vx = dx/dt = rho_dot * cos(phi) - rho * sin(phi)
- *   vy = dy/dt = rho_dot * sin(phi) + rho * cos(phi)
- */
-class RadarModel : public IModel {
-public:
-  explicit RadarModel() {
-    F_ = MatrixXd::Identity(4, 4);
-    G_ = MatrixXd::Zero(4, 1);
-    H_ = MatrixXd::Zero(3, 4);
-  }
-
-  MatrixXd F() const override { return F_; }
-  MatrixXd G() const override { return G_; }
-  MatrixXd H() const override { return H_; }
-
-  void update(double dt, const VectorXd& X0) override;
-
-private:
-  MatrixXd F_, G_, H_;
-
-  void _update_transition(double dt) {
-    F_ = MatrixXd(4, 4);
-    F_ << 1, dt, 0, 0,
-          0,  1, 0, 0,
-          0,  0, 1, dt,
-          0,  0, 0, 1;
-  }
-
-  /** Returns Jacobian matrix of H at X0 */
-  static MatrixXd _linearize_H(const VectorXd& X0);
-};
-
-//TODO save last dt to avoid recalculation
-
-#endif //KALMAN_FILTERS_CPP_MODEL_H
+#endif //KALMAN_FILTERS_CPP_NL_MODEL_H

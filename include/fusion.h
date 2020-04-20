@@ -4,6 +4,7 @@
 #include "sample.h"
 #include "KF.h"
 #include <memory>
+#include <iostream>
 
 struct Position {
   double x, y;
@@ -17,7 +18,11 @@ public:
   explicit Fusion(KFPtr pLKF, KFPtr pRKF, VectorXd X0)
     : LaserKF{std::move(pLKF)},
       RadarKF{std::move(pRKF)},
-      X{std::move(X0)} {}
+      X{std::move(X0)}
+  {
+    auto Sx = X.rows();
+    P = MatrixXd::Identity(Sx, Sx);
+  }
 
   std::vector<Position> process(const std::vector<Sample>& measurement)
   {
@@ -31,17 +36,20 @@ public:
       double dt = double(measurement[i].t - measurement[i-1].t) / 1.0e6;
       auto z = _get_z(m);
 
-      VectorXd X_hat;
       if (m.sensor == Sample::Sensor::LIDAR) {
         LaserKF->X = X;
+        LaserKF->P = P;
         LaserKF->update(z, u, dt);
-        X_hat = LaserKF->predict(u, dt);
+        X = LaserKF->predict(u, dt);
+        P = LaserKF->P;
       } else {
-        RadarKF->X = X;
+        /*RadarKF->X = X;
+        RadarKF->P = P;
         RadarKF->update(z, u, dt);
-        X_hat = RadarKF->predict(u, dt);
+        X = RadarKF->predict(u, dt);
+        P = RadarKF->P;*/
       }
-      positions.emplace_back(X_hat[0], X_hat[2]);
+      positions.emplace_back(X[0], X[2]);
     }
     return positions;
   }
@@ -49,6 +57,7 @@ public:
 private:
   KFPtr LaserKF, RadarKF;
   VectorXd X;  // Current State
+  MatrixXd P;  // Covariance Matrix
 
   static VectorXd _get_z(const Sample& m) {
     if (m.sensor == Sample::Sensor::LIDAR) {

@@ -1,10 +1,4 @@
-#include "model.h"
-
-void RadarModel::update(double dt, const VectorXd &X0)
-{
-  _update_transition(dt);
-  H_ = _linearize_H(X0);
-}
+#include "nl_model.h"
 
 MatrixXd RadarModel::_linearize_H(const VectorXd &X0)
 {
@@ -28,14 +22,16 @@ MatrixXd RadarModel::_linearize_H(const VectorXd &X0)
 
   // equation rho_dot = (x * vx + y * vy) / sqrt(x*x + y*y)
   double c2 = c1 * sqrt(c1);
-  double drd_dx =  y * (vx*y - vy*x) / c2;
-  double drd_dy = -x * (vx*y - vy*x) / c2;
+  double drd_dx = y * (vx*y - vy*x) / c2;
+  double drd_dy = x * (vy*x - vx*y) / c2;
   double drd_dvx = x / c2;
   double drd_dvy = y / c2;
 
-  MatrixXd J_H = MatrixXd(3, 4);
-  J_H << dr_dx,  dr_dy,  dr_dvx,  dr_dvy,
-         dp_dx,  dp_dy,  dp_dvx,  dp_dvy,
-        drd_dx, drd_dy, drd_dvx, drd_dvy;
+  MatrixXd J_H(3, 4);
+  J_H << dr_dx,  dr_dvx,  dr_dy,  dr_dvy,
+         dp_dx,  dp_dvx,  dp_dy,  dp_dvy,
+        drd_dx, drd_dvx, drd_dy, drd_dvy;
   return J_H;
 }
+
+//TODO avoid zero division

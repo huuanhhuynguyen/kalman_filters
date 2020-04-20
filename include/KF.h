@@ -28,8 +28,8 @@ public:
    */
   virtual VectorXd predict(const VectorXd& u, double dt) = 0;
 
-  /** Current State Vector */
-  VectorXd X;
+  VectorXd X;  // Current State Vector
+  MatrixXd P;  // Estimate Uncertainty (Covariance Matrix)
 };
 
 #endif //SELF_03_KALMAN_FILTERS_CPP_KF_H

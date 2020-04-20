@@ -1,6 +1,7 @@
-#include <vector>
 #include "sample.h"
 #include "KFFactory.h"
+#include "linear_model.h"
+#include "nl_model.h"
 #include "fusion.h"
 #include "rmse.h"
 #include "angle.h"
@@ -21,7 +22,7 @@ int main()
 
   // Init intial state
   VectorXd X0(4);
-  X0 << 1.5, 0, -0.1, 0;
+  X0 << 8.4, 0, 0.25, 0;
 
   Fusion fusion(std::move(pLKF), std::move(pRKF), X0);
 
