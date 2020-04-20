@@ -30,7 +30,7 @@ public:
 
   MatrixXd J_f() const { return F; }
   MatrixXd J_g() const { return G; }
-  MatrixXd J_h() const { return H; }  // Output Matrix
+  MatrixXd J_h() const { return H; }
 
   /** Needs to be called before reading the matrices */
   void update(double dt, const VectorXd& X0) {

@@ -35,8 +35,7 @@ public:
     return z;
   }
 
-private:
-
+protected:
   void _update_dt(double dt) override {
     F = MatrixXd(4, 4);
     F << 1, dt, 0, 0,

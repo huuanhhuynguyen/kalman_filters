@@ -43,11 +43,11 @@ public:
         X = LaserKF->predict(u, dt);
         P = LaserKF->P;
       } else {
-        /*RadarKF->X = X;
+        RadarKF->X = X;
         RadarKF->P = P;
         RadarKF->update(z, u, dt);
         X = RadarKF->predict(u, dt);
-        P = RadarKF->P;*/
+        P = RadarKF->P;
       }
       positions.emplace_back(X[0], X[2]);
     }
@@ -58,6 +58,7 @@ private:
   KFPtr LaserKF, RadarKF;
   VectorXd X;  // Current State
   MatrixXd P;  // Covariance Matrix
+  MatrixXd Q;
 
   static VectorXd _get_z(const Sample& m) {
     if (m.sensor == Sample::Sensor::LIDAR) {
