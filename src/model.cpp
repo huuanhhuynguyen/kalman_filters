@@ -26,16 +26,16 @@ MatrixXd RadarModel::_linearize_H(const VectorXd &X0)
   double dp_dvx = 0;
   double dp_dvy = 0;
 
-  // equation rho_dot = sqrt(vx*vx + vy*vy - x*x - y*y)
-  double c2 = vx*vx + vy*vy - x*x - y*y;
-  double drd_dx = -x / sqrt(c2);
-  double drd_dy = -y / sqrt(c2);
-  double drd_dvx = vx / sqrt(c2);
-  double drd_dvy = vy / sqrt(c2);
+  // equation rho_dot = (x * vx + y * vy) / sqrt(x*x + y*y)
+  double c2 = c1 * sqrt(c1);
+  double drd_dx =  y * (vx*y - vy*x) / c2;
+  double drd_dy = -x * (vx*y - vy*x) / c2;
+  double drd_dvx = x / c2;
+  double drd_dvy = y / c2;
 
   MatrixXd J_H = MatrixXd(3, 4);
   J_H << dr_dx,  dr_dy,  dr_dvx,  dr_dvy,
-      dp_dx,  dp_dy,  dp_dvx,  dp_dvy,
-      drd_dx, drd_dy, drd_dvx, drd_dvy;
+         dp_dx,  dp_dy,  dp_dvx,  dp_dvy,
+        drd_dx, drd_dy, drd_dvx, drd_dvy;
   return J_H;
 }
