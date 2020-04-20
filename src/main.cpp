@@ -2,6 +2,7 @@
 #include "sample.h"
 #include "KFFactory.h"
 #include "fusion.h"
+#include "rmse.h"
 #include "angle.h"
 #include "visualize.h"
 
@@ -28,6 +29,7 @@ int main()
   auto positions = fusion.process(measurement);
 
   // Calculate RMSE
+  auto rmse = calculate_rmse(gt, positions);
 
   // Estimate heading angle of gt for visualisation
   //const auto headings = estimate_headings(gt);
