@@ -24,8 +24,8 @@ MatrixXd RadarModel::_linearize_H(const VectorXd &X0)
   double c2 = c1 * sqrt(c1);
   double drd_dx = y * (vx*y - vy*x) / c2;
   double drd_dy = x * (vy*x - vx*y) / c2;
-  double drd_dvx = x / c2;
-  double drd_dvy = y / c2;
+  double drd_dvx = x / sqrt(c1);
+  double drd_dvy = y / sqrt(c1);
 
   MatrixXd J_H(3, 4);
   J_H << dr_dx,  dr_dvx,  dr_dy,  dr_dvy,
