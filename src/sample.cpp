@@ -53,7 +53,7 @@ void read(const std::string& filename,
   {
     std::string sensor;
     iss >> sensor;
-    if (sensor.compare("L") == 0)
+    if (sensor == "L")
     {
       _read_lidar_measurement(iss, sample);
       gt_sample.sensor = Sample::Sensor::LIDAR;
