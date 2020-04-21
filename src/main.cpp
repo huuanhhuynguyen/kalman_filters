@@ -4,7 +4,6 @@
 #include "nl_model.h"
 #include "fusion.h"
 #include "rmse.h"
-#include "angle.h"
 #include "visualize.h"
 
 int main()
