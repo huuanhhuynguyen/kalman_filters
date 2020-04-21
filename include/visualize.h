@@ -7,52 +7,51 @@
 
 namespace plt = matplotlibcpp;
 
-void vis_meas(const std::vector<Sample>& m)
+
+void vis_pred(const std::vector<Position>& p, std::string color = "green")
 {
-  auto get_x = [](const auto& m) {
-    double x = 0;
-    if (m.sensor == Sample::Sensor::LIDAR) {
-      x = m.data[0];
-    } else {
-      auto rho = m.data[0];
-      auto phi = m.data[1];
-      x = rho * cos(phi);
-    }
-    return x;
-  };
-
-  auto get_y = [](const auto& m) {
-    double y = 0;
-    if (m.sensor == Sample::Sensor::LIDAR) {
-      y = m.data[1];
-    } else {
-      auto rho = m.data[0];
-      auto phi = m.data[1];
-      y = rho * sin(phi);
-    }
-    return y;
-  };
-
   std::vector<double> x, y;
-  std::transform(m.begin(), m.end(), std::back_inserter(x), get_x);
-  std::transform(m.begin(), m.end(), std::back_inserter(y), get_y);
-  plt::scatter(x, y, /*s=*/3, {{"color", "blue"}});
+  x.reserve(p.size());
+  y.reserve(p.size());
+  std::transform(p.begin(), p.end(), std::back_inserter(x), [](const auto& p){ return p.x; });
+  std::transform(p.begin(), p.end(), std::back_inserter(y), [](const auto& p){ return p.y; });
+  plt::scatter(x, y, /*s=*/3, {{"color", std::move(color)}});
 }
 
 void vis_gt(const std::vector<Sample>& gt)
 {
-  std::vector<double> x_gt, y_gt;
-  std::transform(gt.begin(), gt.end(), std::back_inserter(x_gt), [](const auto& g){ return g.data[0]; });
-  std::transform(gt.begin(), gt.end(), std::back_inserter(y_gt), [](const auto& g){ return g.data[2]; });
-  plt::scatter(x_gt, y_gt, /*s=*/3, {{"color", "red"}});
+  auto to_position = [](const auto& g) {
+    auto x = g.data[0];
+    auto y = g.data[2];
+    return Position(x, y);
+  };
+  std::vector<Position> p;
+  p.reserve(gt.size());
+  std::transform(gt.begin(), gt.end(), std::back_inserter(p), to_position);
+
+  vis_pred(p, "red");
 }
 
-void vis_prediction(const std::vector<Position>& p)
+void vis_meas(const std::vector<Sample>& meas)
 {
-  std::vector<double> x, y;
-  std::transform(p.begin(), p.end(), std::back_inserter(x), [](const auto& p){ return p.x; });
-  std::transform(p.begin(), p.end(), std::back_inserter(y), [](const auto& p){ return p.y; });
-  plt::scatter(x, y, /*s=*/3, {{"color", "green"}});
+  auto to_position = [](const auto& m) {
+    double x = 0, y = 0;
+    if (m.sensor == Sample::Sensor::LIDAR) {
+      x = m.data[0];
+      y = m.data[1];
+    } else {
+      auto rho = m.data[0];
+      auto phi = m.data[1];
+      x = rho * cos(phi);
+      y = rho * sin(phi);
+    }
+    return Position(x, y);
+  };
+
+  std::vector<Position> p;
+  p.reserve(meas.size());
+  std::transform(meas.begin(), meas.end(), std::back_inserter(p), to_position);
+  vis_pred(p, "blue");
 }
 
 #endif //KALMAN_FILTERS_CPP_VISUALIZE_H

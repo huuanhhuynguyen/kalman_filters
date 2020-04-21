@@ -43,11 +43,11 @@ int main()
   // Visualize measurement
   vis_meas(measurement);
 
+  // Visualize prediction
+  vis_pred(pred_pos);
+
   // Visualize ground-truth
   vis_gt(gt);
-
-  // Visualize prediction
-  vis_prediction(positions);
 
   // Visualize RMSE as a chart
 
