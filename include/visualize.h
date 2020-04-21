@@ -7,7 +7,6 @@
 
 namespace plt = matplotlibcpp;
 
-
 void vis_pred(const std::vector<Position>& p, std::string color = "green")
 {
   std::vector<double> x, y;

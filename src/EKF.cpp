@@ -1,5 +1,4 @@
 #include "EKF.h"
-#include <iostream>
 
 void EKF::update(const VectorXd &z, const VectorXd& u, double dt) {
   pM->update(dt, X);
@@ -15,7 +14,7 @@ VectorXd EKF::predict(const VectorXd& u, double dt)
   pM->update(dt, X);
   MatrixXd J_f = pM->J_f();
 
-  X = pM->f(X) + pM->g(u);
+  X = pM->f(X, u);
   P = J_f * P * J_f.transpose() + Q;
   return X;
 }

@@ -5,19 +5,15 @@
 #include "sample.h"
 
 std::vector<double>
-calculate_rmse(std::vector<Sample> gt, std::vector<Position> prediction)
+calculate_rmse(const std::vector<Position>& lhs, const std::vector<Position>& rhs)
 {
   std::vector<double> res;
-  // prediction is only available from the second sample. Therefore, only
-  // calculate rmse on the second sample onwards.
-  for (int i = 1; i < gt.size(); ++i) {
-    auto g = gt[i];
-    auto p = prediction[i-1];
-    auto x_gt = g.data[0];
-    auto y_gt = g.data[1];
-    auto x = p.x;
-    auto y = p.y;
-    auto rmse = sqrt( (x-x_gt)*(x-x_gt) + (y-y_gt)*(y-y_gt) );
+  for (int i = 1; i < lhs.size(); ++i) {
+    auto x1 = lhs[i].x;
+    auto y1 = lhs[i].y;
+    auto x = rhs[i].x;
+    auto y = rhs[i].y;
+    auto rmse = sqrt( (x-x1)*(x-x1) + (y-y1)*(y-y1) );
     res.push_back(rmse);
   }
   return res;
