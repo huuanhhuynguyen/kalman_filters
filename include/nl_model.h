@@ -20,8 +20,7 @@ public:
     H = MatrixXd::Zero(3, 4);
   }
 
-  VectorXd f(const VectorXd& X) const override { return F * X; }
-  VectorXd g(const VectorXd& U) const override { return G * U; }
+  VectorXd f(const VectorXd& X, const VectorXd& U) const override { return F * X + G * U; }
   VectorXd h(const VectorXd& X) const override {
     double x  = X[0];
     double vx = X[1];

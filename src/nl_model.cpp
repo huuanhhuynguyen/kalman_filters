@@ -7,7 +7,7 @@ MatrixXd RadarModel::_linearize_H(const VectorXd &X0)
   double y  = X0[2];
   double vy = X0[3];
 
-  // equation r = sqrt(x*x + y*y)
+  // equation rho = sqrt(x*x + y*y)
   double c1 = x*x + y*y;
   double dr_dx = x / sqrt(c1);
   double dr_dy = y / sqrt(c1);

@@ -8,13 +8,13 @@ using namespace Eigen;
 /**
  * Generic (Linear or Non-Linear) Model Interface.
  * A model is mathematically represented as follows:
- *   x1 = f(x) + g(u)
+ *   x1 = f(x, u)
  *   z  = h(x)
  * If the model is linear, then:
  *   x1 = F * x + G * u
  *   z  = H * x
  * If the model is non-linear, its linearized at a certain x0 is:
- *   x1 ~= f(x) + g(u)
+ *   x1 ~= f(x, u)
  *   z  = J_h * x
  * where J_H is Jacobian matrix at x0 of the H matrix.
  *
@@ -24,8 +24,7 @@ class IModel {
 public:
   virtual ~IModel() = default;
 
-  virtual VectorXd f(const VectorXd& X) const = 0;
-  virtual VectorXd g(const VectorXd& U) const = 0;
+  virtual VectorXd f(const VectorXd& X, const VectorXd& U) const = 0;
   virtual VectorXd h(const VectorXd& X) const = 0;
 
   MatrixXd J_f() const { return F; }

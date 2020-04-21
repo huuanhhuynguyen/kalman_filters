@@ -10,7 +10,7 @@
  *  Equations linear KF: https://www.kalmanfilter.net/multiSummary.html
  *  Equations extended KF: https://www.cse.sc.edu/~terejanu/files/tutorialEKF.pdf
  *  Update equations:
- *      x = f(x) + g(u)
+ *      x = f(x, u)
  *      P = J_f * P * J_f.transpose() + Q
  *  Predict equations:
  *      K = P * J_h.t * (J_h * P * J_h.t + R).i

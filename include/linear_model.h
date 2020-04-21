@@ -5,8 +5,7 @@
 
 class ILinearModel : public IModel {
 public:
-  VectorXd f(const VectorXd& X) const override { return F * X; }
-  VectorXd g(const VectorXd& U) const override { return G * U; }
+  VectorXd f(const VectorXd& X, const VectorXd& U) const override { return F * X + G * U; }
   VectorXd h(const VectorXd& X) const override { return H * X; }
 
 protected:
@@ -25,8 +24,8 @@ public:
     H << 1, 0, 0, 0,
          0, 0, 1, 0;
   }
-private:
 
+protected:
   void _update_dt(double dt) override {
     F = MatrixXd(4, 4);
     F << 1, dt, 0, 0,
