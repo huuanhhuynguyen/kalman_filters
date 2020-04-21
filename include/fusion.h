@@ -2,7 +2,7 @@
 #define KALMAN_FILTERS_CPP_FUSION_H
 
 #include "sample.h"
-#include "KF.h"
+#include "kf/KF.h"
 #include <memory>
 #include <iostream>
 

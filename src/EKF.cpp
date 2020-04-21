@@ -1,4 +1,4 @@
-#include "EKF.h"
+#include "kf/EKF.h"
 
 void EKF::update(const VectorXd &z, const VectorXd& u, double dt) {
   pM->update(dt, X);

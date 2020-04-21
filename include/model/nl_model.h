@@ -1,7 +1,7 @@
 #ifndef KALMAN_FILTERS_CPP_NL_MODELS_H
 #define KALMAN_FILTERS_CPP_NL_MODELS_H
 
-#include "model.h"
+#include "nonlinear.h"
 
 /**
  * Radar model is non-linear due to measurement equations:
