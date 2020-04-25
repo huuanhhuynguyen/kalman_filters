@@ -45,16 +45,18 @@ int main()
     std::transform(measurement.begin(), measurement.end(), std::back_inserter(meas_pos), get_pos);
   }
 
+  // Visualize measurement, estimates & ground-truth
   plt::figure();
   //plt::xlim(3, 13);
   //plt::ylim(-14, 1);
   //plt::xlim(0, 210);
   //plt::ylim(0, 40);
 
-  // Visualize measurement, estimates & ground-truth
   vis_meas(measurement);
   vis_pred(pred_pos);
   vis_gt(gt);
+
+  plt::legend();
 
   plt::show();
   return 0;

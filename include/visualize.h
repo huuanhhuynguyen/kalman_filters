@@ -21,7 +21,7 @@ void visualize(const std::vector<Position>& p,
 
 void vis_pred(const std::vector<Position>& p)
 {
-  visualize(p, {{"color", "green"}, {"marker", "D"}}, 5);
+  visualize(p, {{"color", "green"}, {"marker", "D"}, {"label", "estimation"}}, 5);
 }
 
 void vis_gt(const std::vector<Sample>& gt)
@@ -35,7 +35,7 @@ void vis_gt(const std::vector<Sample>& gt)
   p.reserve(gt.size());
   std::transform(gt.begin(), gt.end(), std::back_inserter(p), to_position);
 
-  visualize(p, {{"color", "red"}}, 2);
+  visualize(p, {{"color", "red"}, {"label", "ground-truth"}}, 2);
 }
 
 void vis_meas(const std::vector<Sample>& meas)
@@ -57,7 +57,7 @@ void vis_meas(const std::vector<Sample>& meas)
   std::vector<Position> p;
   p.reserve(meas.size());
   std::transform(meas.begin(), meas.end(), std::back_inserter(p), to_position);
-  visualize(p, {{"color", "blue"}, {"marker", "s"}}, 5);
+  visualize(p, {{"color", "blue"}, {"marker", "s"}, {"label", "measurement"}}, 5);
 }
 
 #endif //KALMAN_FILTERS_CPP_VISUALIZE_H
