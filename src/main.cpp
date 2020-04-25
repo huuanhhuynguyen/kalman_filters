@@ -9,7 +9,7 @@ int main()
 {
   // read measurement and ground truth data
   std::vector<Sample> measurement, gt;
-  std::string file{"../data/obj_pose-laser-radar-synthetic-input.txt"};
+  std::string file{"../data/3.txt"};
   read(file, measurement, gt);
 
   // Initialize kalman filters
@@ -18,8 +18,8 @@ int main()
   auto pRKF = KFFactory::manufacture(KFType::EXTENDED,
                                      std::make_unique<RadarModel>());
 
-  // Init intial state (untuned, just zeros)
-  VectorXd X0 = VectorXd::Zero(4);
+  // Init intial state (untuned, just non-zeros)
+  VectorXd X0 = VectorXd::Ones(4);
 
   Fusion fusion(std::move(pLKF), std::move(pRKF), X0);
 
@@ -47,10 +47,15 @@ int main()
 
   // Visualize measurement, estimates & ground-truth
   plt::figure();
+  // for 1.txt
   //plt::xlim(3, 13);
   //plt::ylim(-14, 1);
+  // for 2.txt
   //plt::xlim(0, 210);
   //plt::ylim(0, 40);
+  // for 3.txt
+  plt::xlim(-30, 25);
+  plt::ylim(-12, 25);
 
   vis_meas(measurement);
   vis_pred(pred_pos);
