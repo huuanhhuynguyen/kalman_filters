@@ -8,9 +8,11 @@ Radar and Lidar measurements as well as ground-truth are stored in text files (i
 
 ## Fusion Model
 
+Lidar KF and Radar KF process the Lidar and Radar measurement, respectively.
+
 ![Fusion Model](out/fusion.png)
 
-The state X and covariance matrix P are shared between two filters. It is also possible to share the process uncertainty Q in addition to X and P.
+To fuse the estimation, the state X and covariance matrix P are shared between two filters. It is also possible to share the process uncertainty Q in addition to X and P.
 
 ## Linear KF
 
