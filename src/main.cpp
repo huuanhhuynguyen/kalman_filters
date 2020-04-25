@@ -1,7 +1,7 @@
 #include "sample.h"
 #include "kf/KFFactory.h"
 #include "model/linear.h"
-#include "model/nl_model.h"
+#include "model/nonlinear.h"
 #include "fusion.h"
 #include "visualize.h"
 

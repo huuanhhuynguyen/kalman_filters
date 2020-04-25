@@ -1,7 +1,7 @@
 #ifndef KALMAN_FILTERS_CPP_LINEAR_H
 #define KALMAN_FILTERS_CPP_LINEAR_H
 
-#include "nonlinear.h"
+#include "model.h"
 
 class ILinearModel : public IModel {
 public:

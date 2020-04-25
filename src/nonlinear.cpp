@@ -1,4 +1,4 @@
-#include "model/nl_model.h"
+#include "model/nonlinear.h"
 
 MatrixXd RadarModel::_linearize_H(const VectorXd &X0)
 {

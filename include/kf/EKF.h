@@ -2,7 +2,7 @@
 #define KALMAN_FILTERS_CPP_EKF_H
 
 #include "KF.h"
-#include "model/nonlinear.h"
+#include "model/model.h"
 #include <memory>
 
 /**
