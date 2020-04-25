@@ -7,14 +7,21 @@
 
 namespace plt = matplotlibcpp;
 
-void vis_pred(const std::vector<Position>& p, std::string color = "green")
+void visualize(const std::vector<Position>& p,
+               const std::map<std::string, std::string> & keywords,
+               int marker_size)
 {
   std::vector<double> x, y;
   x.reserve(p.size());
   y.reserve(p.size());
   std::transform(p.begin(), p.end(), std::back_inserter(x), [](const auto& p){ return p.x; });
   std::transform(p.begin(), p.end(), std::back_inserter(y), [](const auto& p){ return p.y; });
-  plt::scatter(x, y, /*s=*/3, {{"color", std::move(color)}});
+  plt::scatter(x, y, marker_size, keywords);
+}
+
+void vis_pred(const std::vector<Position>& p)
+{
+  visualize(p, {{"color", "green"}, {"marker", "D"}}, 5);
 }
 
 void vis_gt(const std::vector<Sample>& gt)
@@ -28,7 +35,7 @@ void vis_gt(const std::vector<Sample>& gt)
   p.reserve(gt.size());
   std::transform(gt.begin(), gt.end(), std::back_inserter(p), to_position);
 
-  vis_pred(p, "red");
+  visualize(p, {{"color", "red"}}, 2);
 }
 
 void vis_meas(const std::vector<Sample>& meas)
@@ -50,7 +57,7 @@ void vis_meas(const std::vector<Sample>& meas)
   std::vector<Position> p;
   p.reserve(meas.size());
   std::transform(meas.begin(), meas.end(), std::back_inserter(p), to_position);
-  vis_pred(p, "blue");
+  visualize(p, {{"color", "blue"}, {"marker", "s"}}, 5);
 }
 
 #endif //KALMAN_FILTERS_CPP_VISUALIZE_H

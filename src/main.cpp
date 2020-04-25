@@ -15,7 +15,7 @@ int main()
 
   // Initialize kalman filters
   auto pLKF = KFFactory::manufacture(KFType::EXTENDED,
-                                    std::make_unique<LaserModel>());
+                                     std::make_unique<LaserModel>());
   auto pRKF = KFFactory::manufacture(KFType::EXTENDED,
                                      std::make_unique<RadarModel>());
 
