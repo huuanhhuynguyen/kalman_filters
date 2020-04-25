@@ -24,11 +24,11 @@ X = [x, y, vx, vy] and z = [x, y]
 I use an EKF for processing the Radar position measurement. That means,
 X = [x, y, vx, vy] and z = [rho, phi, rho_dot]
 
-Here is the result without any tuning.
-
 | 1.txt | 2.txt | 3.txt |
 | --- | --- | --- |
 | ![1](out/1.png) | ![2](out/2.png) | ![3](out/3.png)|
+
+The images above show the result. I haven't tune the uncertainty matrices yet. P, Q and R are simply identity matrices.
 
 ## Unscented KF
  
