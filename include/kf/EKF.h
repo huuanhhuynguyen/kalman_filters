@@ -30,8 +30,8 @@ public:
     auto Su = pM->J_g().cols();
     X = VectorXd::Zero(Sx);
     P = MatrixXd::Identity(Sx, Sx);
-    Q = MatrixXd::Identity(Sx, Sx) * 1000;
-    R = MatrixXd::Identity(Sz, Sz) * 0.01;
+    Q = MatrixXd::Identity(Sx, Sx);
+    R = MatrixXd::Identity(Sz, Sz);
     K = MatrixXd::Zero(Sx, Sz);
     I = MatrixXd::Identity(Sx, Sx);
   };
