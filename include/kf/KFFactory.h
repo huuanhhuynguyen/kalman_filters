@@ -12,13 +12,17 @@ class KFFactory {
 public:
   using KFPtr = std::unique_ptr<IKalmanFilter>;
   using ModelPtr = std::unique_ptr<IModel>;
+  using EKF_MPtr = std::unique_ptr<IModelEKF>;
 
-  static KFPtr manufacture(KFType type, ModelPtr pModel) {
+  static KFPtr manufacture(KFType type, EKF_MPtr pM) {
     switch (type) {
       case KFType::UNSCENTED:
       case KFType::EXTENDED:
-      default:
-        return std::make_unique<EKF>(std::move(pModel));
+      {
+        //EKF_MPtr pModelEKF(dynamic_cast<IModelEKF*>(pM.get()));
+        //return std::make_unique<EKF>(std::move(pModelEKF));
+        return std::make_unique<EKF>(std::move(pM));
+      }
     }
   }
 };

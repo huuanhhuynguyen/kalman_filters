@@ -10,7 +10,7 @@
  *  Equations linear KF: https://www.kalmanfilter.net/multiSummary.html
  *  Equations extended KF: https://www.cse.sc.edu/~terejanu/files/tutorialEKF.pdf
  *  Update equations:
- *      x = f(x, u)
+ *      x = f(x, u, dt)
  *      P = J_f * P * J_f.transpose() + Q
  *  Predict equations:
  *      K = P * J_h.t * (J_h * P * J_h.t + R).i
@@ -22,12 +22,12 @@
  */
 class EKF : public IKalmanFilter {
 public:
-  using MPtr = std::unique_ptr<IModel>;
+  using MPtr = std::unique_ptr<IModelEKF>;
 
   explicit EKF(MPtr pModel) : pM{std::move(pModel)} {
-    auto Sz = pM->J_h().rows();
-    auto Sx = pM->J_h().cols();
-    auto Su = pM->J_g().cols();
+    auto Sx = pM->Sx();
+    auto Su = pM->Su();
+    auto Sz = pM->Sz();
     X = VectorXd::Zero(Sx);
     P = MatrixXd::Identity(Sx, Sx);
     Q = MatrixXd::Identity(Sx, Sx);

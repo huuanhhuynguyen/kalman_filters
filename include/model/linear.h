@@ -3,16 +3,31 @@
 
 #include "model.h"
 
-class ILinearModel : public IModel {
+/**
+ * Linear Model Interface
+ *   x1 = F * x + G * u
+ *   z  = H * x
+ * Linearization of f(x) and g(x) simply returns F and G.
+ */
+class ILinearModel : public IModelEKF {
 public:
-  VectorXd f(const VectorXd& X, const VectorXd& U) const override { return F * X + G * U; }
+  VectorXd f(const VectorXd& X, const VectorXd& U, double dt) const override {
+    F = _update_F(dt);
+    G = _update_G(dt);
+    return F * X + G * U;
+  }
   VectorXd h(const VectorXd& X) const override { return H * X; }
 
+  MatrixXd J_f(const VectorXd& X0) const override { return F; }
+  MatrixXd J_h(const VectorXd& X0) const override { return H; }
+
 protected:
-  /** Linear models don't linearize anything */
-  MatrixXd _linearize_F(const VectorXd& X0) override { return F; }
-  MatrixXd _linearize_G(const VectorXd& X0) override { return G; }
-  MatrixXd _linearize_H(const VectorXd& X0) override { return H; }
+  mutable MatrixXd F;  // Transition Matrix
+  mutable MatrixXd G;  // Input Matrix
+  MatrixXd H;          // Output Matrix
+
+  virtual MatrixXd _update_F(double dt) const = 0;
+  virtual MatrixXd _update_G(double dt) const = 0;
 };
 
 class LaserModel : public ILinearModel {
@@ -25,14 +40,22 @@ public:
          0, 0, 1, 0;
   }
 
+  unsigned int Sx() const override { return 4u; }
+  unsigned int Su() const override { return 1u; }
+  unsigned int Sz() const override { return 2u; }
+
 protected:
-  void _update_dt(double dt) override {
-    F = MatrixXd(4, 4);
-    F << 1, dt, 0, 0,
-         0,  1, 0, 0,
-         0,  0, 1, dt,
-         0,  0, 0, 1;
+  MatrixXd _update_F(double dt) const override {
+    MatrixXd F_new(4, 4);
+    F_new << 1, dt, 0, 0,
+             0,  1, 0, 0,
+             0,  0, 1, dt,
+             0,  0, 0, 1;
+    return F_new;
   }
+
+  /// G is a zero matrix (not dependent on dt)
+  MatrixXd _update_G(double dt) const override { return G; }
 };
 
 #endif //KALMAN_FILTERS_CPP_LINEAR_H

@@ -1,6 +1,19 @@
 #include "model/nonlinear.h"
 
-MatrixXd RadarModel::_linearize_H(const VectorXd &X0)
+VectorXd RadarModel::h(const VectorXd &X) const {
+  double x  = X[0];
+  double vx = X[1];
+  double y  = X[2];
+  double vy = X[3];
+  double rho = sqrt(x*x + y*y);
+  double phi = atan2(y, x);
+  double rho_dot = (x * vx + y * vy) / std::max(rho, 1e-9);
+  VectorXd z(3);
+  z << rho, phi, rho_dot;
+  return z;
+}
+
+MatrixXd RadarModel::J_h(const VectorXd &X0) const
 {
   double x  = X0[0];
   double vx = X0[1];
