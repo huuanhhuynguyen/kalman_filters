@@ -16,8 +16,10 @@ To fuse the estimation, the state X and covariance matrix P are shared between t
 
 ## Linear KF
 
-It is possible to use linear KF only for fusing the measurements. Both Lidar and Radar measures directly the position. In this case,
+It is possible to use only linear KFs for fusing the measurements. In that case,
 the state X = [x, y, vx, vy] and the measurement for both sensor z = [x, y].
+
+Both Lidar and Radar measures directly the position.
 
 ## Extended KF
 
