@@ -12,9 +12,14 @@ int main()
   std::string file{"../data/3.txt"};
   read(file, measurement, gt);
 
-  // Initialize kalman filters
+  // Initialize extended kalman filters
   auto pLKF = KFFactory::manufacture_ekf(std::make_unique<LaserModel>());
   auto pRKF = KFFactory::manufacture_ekf(std::make_unique<RadarModel>());
+
+  // Initialize unscented kalman filters
+  //auto pLKF = KFFactory::manufacture_ukf();
+  //auto pRKF = KFFactory::manufacture_ukf();
+
 
   // Init intial state (untuned, just non-zeros)
   VectorXd X0 = VectorXd::Ones(4);
