@@ -35,5 +35,12 @@ X = [x, y, vx, vy] and z = [rho, phi, rho_dot]
 The images above show the result. I haven't tune the uncertainty matrices yet. P, Q and R are simply identity matrices.
 
 ## Unscented KF
+
+## Basic Build Instructions
+1. Clone this repo.
+2. Make a build directory: `mkdir build && cd build`
+3. Compile: `cmake .. && make`
+4. Run it: `./kalman_filters_cpp`
+TODOS run with args
  
 
