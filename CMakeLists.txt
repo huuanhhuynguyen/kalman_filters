@@ -11,7 +11,9 @@ include_directories(Eigen)
 set(SOURCES src/main.cpp
             src/sample.cpp
             src/kf/EKF.cpp
-            src/model/nonlinear.cpp)
+            src/kf/UKF.cpp
+            src/model/nonlinear.cpp
+            src/sigma_points.cpp)
 add_executable(${THIS} ${SOURCES})
 
 # The following is required for matplotlib-cpp
