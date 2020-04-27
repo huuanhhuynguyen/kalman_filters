@@ -1,6 +1,6 @@
 # Extended and Unscented Kalman Filters
 
-This project is based on the [Sensor Fusion section](https://www.udacity.com/course/self-driving-car-engineer-nanodegree--nd013) of the Self-Driving Car Engineer Nanodegree from Udacity.
+This project is based on the [chapter of sensor fusion](https://www.udacity.com/course/self-driving-car-engineer-nanodegree--nd013) of the Self-Driving Car Engineer Nanodegree from Udacity.
 Even I didn't register for the course, I learned EKF & UKF from reading articles
  to this Nanodegree. Thanks Udacity for giving me this learning experience!
 
