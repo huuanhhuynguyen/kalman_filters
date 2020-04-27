@@ -6,8 +6,8 @@ Even I didn't register for the course, I learned EKF & UKF from reading articles
 
 ## Project Setting
 Radar and Lidar measurements as well as ground-truth are stored in text files 
-(in ./data). Kalman Filters are used to fuse the measurements from two sensors 
-and result in the estimations.
+(in folder `data/`). Kalman Filters are used to fuse the measurements from two 
+sensors and result in the estimations.
 
 ## Fusion Model
 
@@ -25,21 +25,20 @@ It is possible to use only linear KFs for fusing the measurements. In that case,
 the state X = [x, y, vx, vy] and the measurement for both sensor z = [x, y].
 
 For it, just extract the position measurement from each sensor. But to make use
-of velocity measurement from Radar, EKF and UKF could be used because a 
+of velocity measurement from Radar, EKF and UKF should be used because a 
 non-linearity now presents.
 
 ## Extended KF
 
-I use a linear KF for processing the Lidar position measurement. That means,
-X = [x, y, vx, vy] and z = [x, y]
-I use an EKF for processing the Radar position measurement. That means,
-X = [x, y, vx, vy] and z = [rho, phi, rho_dot]
+I use a linear KF for processing the Lidar position measurement and EKF for Radar
+ measurement. That means,
+X = [x, y, vx, vy], z_lidar = [x, y] and z_radar = [rho, phi, rho_dot]
 
 | 1.txt | 2.txt | 3.txt |
 | --- | --- | --- |
 | ![1](out/1.png) | ![2](out/2.png) | ![3](out/3.png)|
 
-The images above show the result. I haven't tune the uncertainty matrices yet. 
+The images above show the result without any tuning of uncertainty matrices. 
 P, Q and R are simply identity matrices.
 
 ## Unscented KF
