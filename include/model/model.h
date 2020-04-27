@@ -42,8 +42,4 @@ public:
  */
 class IModelEKF : public IModel, public ILinearizable {};
 
-
-
-
-
 #endif //KALMAN_FILTERS_CPP_NL_MODEL_H

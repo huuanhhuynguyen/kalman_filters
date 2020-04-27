@@ -13,13 +13,12 @@ int main()
   read(file, measurement, gt);
 
   // Initialize extended kalman filters
-  auto pLKF = KFFactory::manufacture_ekf(std::make_unique<LaserModel>());
-  auto pRKF = KFFactory::manufacture_ekf(std::make_unique<RadarModel>());
+  //auto pLKF = KFFactory::manufacture_ekf(std::make_unique<LaserModel>());
+  //auto pRKF = KFFactory::manufacture_ekf(std::make_unique<RadarModel>());
 
   // Initialize unscented kalman filters
-  //auto pLKF = KFFactory::manufacture_ukf();
-  //auto pRKF = KFFactory::manufacture_ukf();
-
+  auto pLKF = KFFactory::manufacture_ukf(std::make_unique<LaserModel>());
+  auto pRKF = KFFactory::manufacture_ukf(std::make_unique<RadarModel>());
 
   // Init intial state (untuned, just non-zeros)
   VectorXd X0 = VectorXd::Ones(4);
