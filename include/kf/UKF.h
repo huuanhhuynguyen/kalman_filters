@@ -6,6 +6,12 @@
 #include "model/model.h"
 #include <memory>
 
+/**
+ * Unscented Kalman Filter
+ * Paper: https://www.seas.harvard.edu/courses/cs281/papers/unscented.pdf
+ * Hints for programming UKF:
+ * https://towardsdatascience.com/the-unscented-kalman-filter-anything-ekf-can-do-i-can-do-it-better-ce7c773cf88d
+ */
 class UKF : public IKalmanFilter {
 public:
   using MPtr = std::unique_ptr<IModel>;
