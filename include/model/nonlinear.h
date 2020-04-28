@@ -27,9 +27,9 @@ public:
 
   VectorXd h(const VectorXd& X) const override;
 
-  unsigned int Sx() const override { return 4u; }
-  unsigned int Su() const override { return 1u; }
-  unsigned int Sz() const override { return 3u; }
+  int Sx() const override { return 4; }
+  int Su() const override { return 1; }
+  int Sz() const override { return 3; }
 
   MatrixXd J_f(const VectorXd& X0) const override { return F; }
 

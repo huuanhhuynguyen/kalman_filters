@@ -40,9 +40,9 @@ public:
          0, 0, 1, 0;
   }
 
-  unsigned int Sx() const override { return 4u; }
-  unsigned int Su() const override { return 1u; }
-  unsigned int Sz() const override { return 2u; }
+  int Sx() const override { return 4; }
+  int Su() const override { return 1; }
+  int Sz() const override { return 2; }
 
 protected:
   MatrixXd _update_F(double dt) const override {

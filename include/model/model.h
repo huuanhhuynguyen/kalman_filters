@@ -20,9 +20,9 @@ public:
   virtual VectorXd h(const VectorXd& X) const = 0;
 
   /** Sizes of the state, input and measurement vectors. */
-  virtual unsigned int Sx() const = 0;
-  virtual unsigned int Su() const = 0;
-  virtual unsigned int Sz() const = 0;
+  virtual int Sx() const = 0;
+  virtual int Su() const = 0;
+  virtual int Sz() const = 0;
 };
 
 /**
