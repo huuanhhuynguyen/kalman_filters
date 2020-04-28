@@ -42,12 +42,12 @@ public:
         LaserKF->update(z, u, dt);
         X = LaserKF->predict(u, dt);
         P = LaserKF->P;
-      } else {
+      } else {/*
         RadarKF->X = X;
         RadarKF->P = P;
         RadarKF->update(z, u, dt);
         X = RadarKF->predict(u, dt);
-        P = RadarKF->P;
+        P = RadarKF->P;*/
       }
       positions.emplace_back(X[0], X[2]);
     }
@@ -59,5 +59,7 @@ private:
   VectorXd X;  // Current State
   MatrixXd P;  // Covariance Matrix
 };
+
+//TODO If UKF call predict before update() -> maybe if sigma not init, pass through.
 
 #endif //KALMAN_FILTERS_CPP_FUSION_H

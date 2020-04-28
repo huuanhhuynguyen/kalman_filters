@@ -56,8 +56,8 @@ int main()
   //plt::xlim(0, 210);
   //plt::ylim(0, 40);
   // for 3.txt
-  plt::xlim(-30, 25);
-  plt::ylim(-12, 25);
+  //plt::xlim(-30, 25);
+  //plt::ylim(-12, 25);
 
   vis_meas(measurement);
   vis_pred(pred_pos);
