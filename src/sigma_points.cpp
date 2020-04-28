@@ -11,7 +11,7 @@ MatrixXd compute_sigma_points(const VectorXd& muy, MatrixXd cov)
     throw(std::invalid_argument("Error: muy and cov must have the same number of rows."));
   }
 
-  for (unsigned int i = 0; i < cov.rows(); ++i) {
+  for (int i = 0; i < cov.rows(); ++i) {
     if (cov(i, i) <= 0.0) {
       throw(std::invalid_argument("Error: diagonal elements of cov must be non-negative"));
     }
@@ -34,16 +34,16 @@ MatrixXd compute_sigma_points(const VectorXd& muy, MatrixXd cov)
   const int n = cov.rows();
   MatrixXd sigma(n, 2*n+1);
   sigma.col(0) = muy;
-  for (unsigned int i = 1; i <= n; ++i) {
+  for (int i = 1; i <= n; ++i) {
     sigma.col(i) = muy + cov.col(i-1);
   }
-  for (unsigned int i = n+1; i <= 2*n; ++i) {
+  for (int i = n+1; i <= 2*n; ++i) {
     sigma.col(i) = muy - cov.col(i-n-1);
   }
 
   // output validation
   VectorXd mean = VectorXd::Zero(n);
-  for (unsigned int i = 0; i <= 2*n; ++i) {
+  for (int i = 0; i <= 2*n; ++i) {
     mean += sigma.col(i);
   }
   mean /= (2 * n + 1);
@@ -60,13 +60,13 @@ VectorXd compute_sigma_weights(int n)
 
   const double lambda = 3 - n;
   weights(0) = lambda / (n + lambda);
-  for (unsigned int i = 1; i <= 2*n; ++i) {
+  for (int i = 1; i <= 2*n; ++i) {
     weights(i) = 0.5 / (n + lambda);
   }
 
   // output validation
-  double sum = weights.sum();
-  if (abs(sum - 1.0) < 1.0e-9) {
+  const double sum = weights.sum();
+  if (abs(sum - 1.0) > 1.0e-9) {
     // Don't throw exception because the function is called in UKF constructor
     std::cerr << "Sigma weights must sum up to 1!" << std::endl;
   }

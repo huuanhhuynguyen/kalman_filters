@@ -16,17 +16,21 @@ class UKF : public IKalmanFilter {
 public:
   using MPtr = std::unique_ptr<IModel>;
 
-  explicit UKF(MPtr pModel) : pM{std::move(pModel)} {
+  explicit UKF(MPtr pModel) : pM{std::move(pModel)}
+  {
     auto Sx = pM->Sx();
     auto Su = pM->Su();
     auto Sz = pM->Sz();
+
     X = VectorXd::Zero(Sx);
     P = MatrixXd::Identity(Sx, Sx);
     Q = MatrixXd::Identity(Sx, Sx);
     R = MatrixXd::Identity(Sz, Sz);
     K = MatrixXd::Zero(Sx, Sz);
     I = MatrixXd::Identity(Sx, Sx);
-    sigma = MatrixXd::Zero(Sx, 2*Sx + 1);
+
+    n_sigma = 2*Sx + 1;
+    sigma = MatrixXd::Zero(Sx, n_sigma);
     weights = compute_sigma_weights(Sx);
   }
 
@@ -41,10 +45,9 @@ private:
   MatrixXd K;  // Kalman Gain
   MatrixXd I;  // Identity Matrix
 
-  MatrixXd sigma;  // sigma points
+  int n_sigma;       // number of sigma points
+  MatrixXd sigma;    // sigma points
   VectorXd weights;  // weights for sigma points
 };
-
-//TODO create S_sigma and used everywhere?
 
 #endif //KALMAN_FILTERS_CPP_UKF_H

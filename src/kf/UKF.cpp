@@ -3,13 +3,12 @@
 
 void UKF::update(const VectorXd &z, const VectorXd &u, double dt)
 {
-  sigma = compute_sigma_points(X, P);
+  //sigma = compute_sigma_points(X, P);
 
   const int Sz = z.size();
-  const int two_n_plus_1 = sigma.cols();
 
-  MatrixXd Z(Sz, two_n_plus_1);
-  for (unsigned int i = 0; i < two_n_plus_1; ++i) {
+  MatrixXd Z(Sz, n_sigma);
+  for (int i = 0; i < n_sigma; ++i) {
     Z.col(i) = pM->h(sigma.col(i));
   }
   std::cout << "Z = \n" << Z << std::endl;
@@ -18,13 +17,13 @@ void UKF::update(const VectorXd &z, const VectorXd &u, double dt)
   std::cout << "z_hat = \n" << z_hat << std::endl;
 
   MatrixXd Pzz = R;
-  for (unsigned int i = 0; i < two_n_plus_1; ++i) {
+  for (int i = 0; i < n_sigma; ++i) {
     Pzz += weights(i) * (Z.col(i) - z_hat) * (Z.col(i) - z_hat).transpose();
   }
   std::cout << "Pzz = \n" << Pzz << std::endl;
 
   MatrixXd Pxz = MatrixXd::Zero(X.size(), Sz);
-  for (unsigned int i = 0; i < two_n_plus_1; ++i) {
+  for (int i = 0; i < n_sigma; ++i) {
     Pxz += weights(i) * (sigma.col(i) - X) * (Z.col(i) - z_hat).transpose();
   }
   std::cout << "Pxz = \n" << Pxz << std::endl;
@@ -45,13 +44,13 @@ VectorXd UKF::predict(const VectorXd &u, double dt)
 
   // Update state X (aka. the new estimated mean)
   X.fill(0.0);
-  for (unsigned int i = 0; i < 2*X.rows(); ++i) {
+  for (int i = 0; i < n_sigma; ++i) {
     X += weights(i) * pM->f(sigma.col(i), u, dt);
   }
 
   // Update covariance matrix P
   P = Q;
-  for (unsigned int i = 0; i < 2*X.rows(); ++i) {
+  for (int i = 0; i < n_sigma; ++i) {
     auto x_diff = pM->f(sigma.col(i), u, dt) - X;
     P += weights(i) * x_diff * x_diff.transpose();
   }
