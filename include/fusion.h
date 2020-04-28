@@ -58,7 +58,6 @@ private:
   KFPtr LaserKF, RadarKF;
   VectorXd X;  // Current State
   MatrixXd P;  // Covariance Matrix
-  MatrixXd Q;
 };
 
 #endif //KALMAN_FILTERS_CPP_FUSION_H

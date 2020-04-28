@@ -1,9 +1,20 @@
 #include "sigma_points.h"
+#include <iostream>
 
 MatrixXd compute_sigma_points(const VectorXd& muy, MatrixXd cov)
 {
+  if (cov.rows() != cov.cols()) {
+    throw(std::invalid_argument("Error: cov must be a square matrix."));
+  }
+
   if (muy.size() != cov.rows()) {
-    throw(std::invalid_argument("muy and cov must have the same number of rows."));
+    throw(std::invalid_argument("Error: muy and cov must have the same number of rows."));
+  }
+
+  for (unsigned int i = 0; i < cov.rows(); ++i) {
+    if (cov(i, i) <= 0.0) {
+      throw(std::invalid_argument("Error: diagonal elements of cov must be non-negative"));
+    }
   }
 
   // cov = sqrt( (n + lambda) * cov )
@@ -13,7 +24,10 @@ MatrixXd compute_sigma_points(const VectorXd& muy, MatrixXd cov)
     const int lambda = 3 - n;
     cov *= (n + lambda);
     SelfAdjointEigenSolver<MatrixXd> estimator(cov);
-    cov = estimator.operatorSqrt();
+    const auto sqrt = estimator.operatorSqrt();
+    //const MatrixXd sqrt = cov.llt().matrixL();
+    assert((cov - sqrt*sqrt.transpose()).norm() < 1e-9);
+    cov = sqrt;
   }
 
   // Compute sigma points
@@ -27,6 +41,16 @@ MatrixXd compute_sigma_points(const VectorXd& muy, MatrixXd cov)
     sigma.col(i) = muy - cov.col(i-n-1);
   }
 
+  // output validation
+  VectorXd mean = VectorXd::Zero(n);
+  for (unsigned int i = 0; i <= 2*n; ++i) {
+    mean += sigma.col(i);
+  }
+  mean /= (2 * n + 1);
+  if ((mean - muy).norm() > 1e-9) {
+    throw(std::logic_error("Mean of all sigma points must equal muy."));
+  }
+
   return sigma;
 }
 
@@ -38,14 +62,14 @@ std::vector<double> compute_sigma_weights(int n)
   const double lambda = 3 - n;
   weights.push_back(lambda / (n + lambda));
   for (unsigned int i = 0; i <= 2*n; ++i) {
-    double val = 0.5 / (n + lambda);
-    weights.push_back(val);
+    weights.push_back(0.5 / (n + lambda));
   }
 
   // output validation
   double sum = std::accumulate(weights.begin(), weights.end(), 0.0);
   if (abs(sum - 1.0) < 1.0e-9) {
-    throw(std::logic_error("Sigma weights must sum up to 1!"));
+    // Don't throw exception because the function is called in UKF constructor
+    std::cerr << "Sigma weights must sum up to 1!" << std::endl;
   }
 
   return weights;

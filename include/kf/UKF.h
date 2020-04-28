@@ -26,7 +26,9 @@ public:
     R = MatrixXd::Identity(Sz, Sz);
     K = MatrixXd::Zero(Sx, Sz);
     I = MatrixXd::Identity(Sx, Sx);
-  };
+    sigma = MatrixXd::Zero(Sx, 2*Sx + 1);
+    weights = compute_sigma_weights(Sx);
+  }
 
   void update(const VectorXd& z, const VectorXd& u, double dt) override;
   VectorXd predict(const VectorXd& u, double dt) override;
@@ -38,6 +40,11 @@ private:
   MatrixXd R;  // Measurement Uncertainty
   MatrixXd K;  // Kalman Gain
   MatrixXd I;  // Identity Matrix
+
+  MatrixXd sigma;  // sigma points
+  std::vector<double> weights;  // weights for sigma points
 };
+
+//TODO create S_sigma and used everywhere?
 
 #endif //KALMAN_FILTERS_CPP_UKF_H
