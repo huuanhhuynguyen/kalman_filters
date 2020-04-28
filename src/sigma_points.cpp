@@ -54,19 +54,18 @@ MatrixXd compute_sigma_points(const VectorXd& muy, MatrixXd cov)
   return sigma;
 }
 
-std::vector<double> compute_sigma_weights(int n)
+VectorXd compute_sigma_weights(int n)
 {
-  std::vector<double> weights;
-  weights.reserve(2*n + 1);
+  VectorXd weights(2*n+1);
 
   const double lambda = 3 - n;
-  weights.push_back(lambda / (n + lambda));
-  for (unsigned int i = 0; i <= 2*n; ++i) {
-    weights.push_back(0.5 / (n + lambda));
+  weights(0) = lambda / (n + lambda);
+  for (unsigned int i = 1; i <= 2*n; ++i) {
+    weights(i) = 0.5 / (n + lambda);
   }
 
   // output validation
-  double sum = std::accumulate(weights.begin(), weights.end(), 0.0);
+  double sum = weights.sum();
   if (abs(sum - 1.0) < 1.0e-9) {
     // Don't throw exception because the function is called in UKF constructor
     std::cerr << "Sigma weights must sum up to 1!" << std::endl;

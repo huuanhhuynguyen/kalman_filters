@@ -20,6 +20,6 @@ MatrixXd compute_sigma_points(const VectorXd& muy, MatrixXd cov);
 /**
  * Return weights of sigma points of a n-dimension Gaussian distribution.
  */
-std::vector<double> compute_sigma_weights(int n);
+VectorXd compute_sigma_weights(int n);
 
 #endif //KALMAN_FILTERS_CPP_SIGMA_POINTS_H

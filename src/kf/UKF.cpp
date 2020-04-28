@@ -14,21 +14,18 @@ void UKF::update(const VectorXd &z, const VectorXd &u, double dt)
   }
   std::cout << "Z = \n" << Z << std::endl;
 
-  VectorXd z_hat = VectorXd::Zero(z.size());
-  for (unsigned int i = 0; i < two_n_plus_1; ++i) {
-    z_hat += weights[i] * Z.col(i);
-  }
+  VectorXd z_hat = Z * weights;
   std::cout << "z_hat = \n" << z_hat << std::endl;
 
   MatrixXd Pzz = R;
   for (unsigned int i = 0; i < two_n_plus_1; ++i) {
-    Pzz += weights[i] * (Z.col(i) - z_hat) * (Z.col(i) - z_hat).transpose();
+    Pzz += weights(i) * (Z.col(i) - z_hat) * (Z.col(i) - z_hat).transpose();
   }
   std::cout << "Pzz = \n" << Pzz << std::endl;
 
   MatrixXd Pxz = MatrixXd::Zero(X.size(), Sz);
   for (unsigned int i = 0; i < two_n_plus_1; ++i) {
-    Pxz += weights[i] * (sigma.col(i) - X) * (Z.col(i) - z_hat).transpose();
+    Pxz += weights(i) * (sigma.col(i) - X) * (Z.col(i) - z_hat).transpose();
   }
   std::cout << "Pxz = \n" << Pxz << std::endl;
 
@@ -49,14 +46,14 @@ VectorXd UKF::predict(const VectorXd &u, double dt)
   // Update state X (aka. the new estimated mean)
   X.fill(0.0);
   for (unsigned int i = 0; i < 2*X.rows(); ++i) {
-    X += weights[i] * pM->f(sigma.col(i), u, dt);
+    X += weights(i) * pM->f(sigma.col(i), u, dt);
   }
 
   // Update covariance matrix P
   P = Q;
   for (unsigned int i = 0; i < 2*X.rows(); ++i) {
     auto x_diff = pM->f(sigma.col(i), u, dt) - X;
-    P += weights[i] * x_diff * x_diff.transpose();
+    P += weights(i) * x_diff * x_diff.transpose();
   }
 
   return X;

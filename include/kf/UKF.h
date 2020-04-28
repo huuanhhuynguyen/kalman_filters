@@ -42,7 +42,7 @@ private:
   MatrixXd I;  // Identity Matrix
 
   MatrixXd sigma;  // sigma points
-  std::vector<double> weights;  // weights for sigma points
+  VectorXd weights;  // weights for sigma points
 };
 
 //TODO create S_sigma and used everywhere?
