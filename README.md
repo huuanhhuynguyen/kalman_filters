@@ -19,6 +19,16 @@ To fuse the estimation, the state X and covariance matrix P are shared between
 two filters. It is also possible to share the process uncertainty Q in addition 
 to X and P.
 
+## System Model
+I simply use a constant acceleration model for the KFs.
+```
+[x1 ]   [1 T 0 0]   [x ]
+[vx1] = [0 1 0 0] * [vx]
+[y1 ]   [0 0 1 T]   [y ]
+[vy1]   [0 0 0 1]   [vy]
+```
+But any other model that supports the interface in `\include\model\model.h` can be used.
+
 ## Linear KF
 
 It is possible to use only linear KFs for fusing the measurements. In that case,
