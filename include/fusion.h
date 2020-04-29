@@ -36,12 +36,12 @@ public:
       double dt = double(measurement[i].t - measurement[i-1].t) / 1.0e6;
       auto z = m.data;
 
-      if (m.sensor == Sample::Sensor::LIDAR) {
+      if (m.sensor == Sample::Sensor::LIDAR) {/*
         LaserKF->X = X;
         LaserKF->P = P;
         LaserKF->update(z, u, dt);
         X = LaserKF->predict(u, dt);
-        P = LaserKF->P;
+        P = LaserKF->P;*/
       } else {
         RadarKF->X = X;
         RadarKF->P = P;

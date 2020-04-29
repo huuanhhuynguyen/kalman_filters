@@ -3,8 +3,6 @@
 
 void UKF::update(const VectorXd &z, const VectorXd &u, double dt)
 {
-  sigma = compute_sigma_points(X, P);
-
   // Z = h(sigma)
   MatrixXd Z(z.size(), n_sigma);
   for (int i = 0; i < n_sigma; ++i) {
@@ -38,18 +36,21 @@ VectorXd UKF::predict(const VectorXd &u, double dt)
   // Update X
   X.fill(0.0);
   for (int i = 0; i < n_sigma; ++i) {
-    X += weights(i) * pM->f(sigma.col(i), u, dt);
+    sigma.col(i) = pM->f(sigma.col(i), u, dt);
+    X += weights(i) * sigma.col(i);
   }
 
   // Update P
   P = Q;
   for (int i = 0; i < n_sigma; ++i) {
-    auto tmp = pM->f(sigma.col(i), u, dt) - X;
+    auto tmp = sigma.col(i) - X;
     P += weights(i) * tmp * tmp.transpose();
   }
 
   return X;
 }
+
+//TODO maybe try out another model with yaw angle
 
 
 
