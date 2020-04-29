@@ -32,6 +32,7 @@ protected:
 
 class LaserModel : public ILinearModel {
 public:
+  /** This model assumes state X = [x, vx, y, vy] */
   explicit LaserModel() {
     F = MatrixXd::Identity(4, 4);
     G = MatrixXd::Zero(4, 1);

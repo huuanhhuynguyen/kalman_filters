@@ -24,14 +24,17 @@ class EKF : public IKalmanFilter {
 public:
   using MPtr = std::unique_ptr<IModelEKF>;
 
-  explicit EKF(MPtr pModel) : pM{std::move(pModel)} {
+  explicit EKF(MPtr pModel,
+               const MatrixXd& Q_in,
+               const MatrixXd& R_in) : pM{std::move(pModel)}
+  {
     auto Sx = pM->Sx();
-    auto Su = pM->Su();
+    // auto Su = pM->Su();
     auto Sz = pM->Sz();
     X = VectorXd::Zero(Sx);
     P = MatrixXd::Identity(Sx, Sx);
-    Q = MatrixXd::Identity(Sx, Sx);
-    R = MatrixXd::Identity(Sz, Sz);
+    Q = Q_in;
+    R = R_in;
     K = MatrixXd::Zero(Sx, Sz);
     I = MatrixXd::Identity(Sx, Sx);
   };

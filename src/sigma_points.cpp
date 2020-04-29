@@ -30,7 +30,7 @@ MatrixXd compute_sigma_points(const VectorXd& muy, MatrixXd cov)
       throw(std::logic_error("Error: Either the calculation of square-root of "
                             "covariance matrix 'cov' is wrong or the given "
                             "'cov' has a problem. In the second case, check"
-                            "your UKF equations or UKF model pointer member."))
+                            "your UKF equations or UKF model pointer member."));
     }
     cov = sqrt;
   }

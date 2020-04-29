@@ -9,8 +9,10 @@ class KFFactory {
 public:
   using KFPtr = std::unique_ptr<IKalmanFilter>;
 
-  static KFPtr manufacture_ekf(std::unique_ptr<IModelEKF> pM) {
-    return std::make_unique<EKF>(std::move(pM));
+  static KFPtr manufacture_ekf(std::unique_ptr<IModelEKF> pM,
+                               const MatrixXd& Q_in,
+                               const MatrixXd& R_in) {
+    return std::make_unique<EKF>(std::move(pM), Q_in, R_in);
   }
 
   static KFPtr manufacture_ukf(std::unique_ptr<IModel> pM) {

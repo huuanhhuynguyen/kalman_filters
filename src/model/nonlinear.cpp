@@ -1,6 +1,7 @@
 #include "model/nonlinear.h"
 
-VectorXd RadarModel::h(const VectorXd &X) const {
+VectorXd RadarModel::h(const VectorXd &X) const
+{
   double x  = X[0];
   double vx = X[1];
   double y  = X[2];
