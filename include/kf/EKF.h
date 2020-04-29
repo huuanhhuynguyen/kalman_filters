@@ -39,7 +39,7 @@ public:
     I = MatrixXd::Identity(Sx, Sx);
   };
 
-  void update(const VectorXd& z, const VectorXd& u, double dt) override;
+  void update(const VectorXd& z, const VectorXd& u) override;
   VectorXd predict(const VectorXd& u, double dt) override;
 
 private:

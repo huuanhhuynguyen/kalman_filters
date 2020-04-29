@@ -59,6 +59,7 @@ MatrixXd compute_sigma_points(const VectorXd& muy, MatrixXd cov)
   return sigma;
 }
 
+//TODO pass n_sigma to this function
 VectorXd compute_sigma_weights(int n)
 {
   VectorXd weights(2*n+1);

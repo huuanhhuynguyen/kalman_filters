@@ -18,7 +18,7 @@ public:
    * @param u input
    * @param dt time step
    */
-  virtual void update(const VectorXd& z, const VectorXd& u, double dt) = 0;
+  virtual void update(const VectorXd& z, const VectorXd& u) = 0;
 
   /**
    * Estimates the next state

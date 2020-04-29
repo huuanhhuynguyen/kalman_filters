@@ -49,7 +49,6 @@ protected:
              0,  0, 0, 1;
     return F_new;
   }
-
 };
 
 #endif //KALMAN_FILTERS_CPP_NL_MODEL_H

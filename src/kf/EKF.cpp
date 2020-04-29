@@ -1,6 +1,6 @@
 #include "kf/EKF.h"
 
-void EKF::update(const VectorXd &z, const VectorXd& u, double dt)
+void EKF::update(const VectorXd &z, const VectorXd& u)
 {
   MatrixXd J_h = pM->J_h(X);
 

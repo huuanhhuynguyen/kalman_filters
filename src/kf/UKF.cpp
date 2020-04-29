@@ -1,7 +1,6 @@
 #include "kf/UKF.h"
-#include <iostream>
 
-void UKF::update(const VectorXd &z, const VectorXd &u, double dt)
+void UKF::update(const VectorXd &z, const VectorXd &u)
 {
   // Z = h(sigma)
   MatrixXd Z(z.size(), n_sigma);
@@ -26,7 +25,6 @@ void UKF::update(const VectorXd &z, const VectorXd &u, double dt)
   K = Pxz * Pzz.inverse();
   X = X + K * (z - z_hat);
   P = P - K * Pzz * K.transpose();
-  std::cout << "P = \n" << P << std::endl;
 }
 
 VectorXd UKF::predict(const VectorXd &u, double dt)
@@ -49,8 +47,6 @@ VectorXd UKF::predict(const VectorXd &u, double dt)
 
   return X;
 }
-
-//TODO maybe try out another model with yaw angle
 
 
 
