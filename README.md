@@ -46,7 +46,7 @@ X = [x, y, vx, vy], z_lidar = [x, y] and z_radar = [rho, phi, rho_dot]
 
 | 1.txt | 2.txt | 3.txt |
 | --- | --- | --- |
-| ![1](out/ekf_1.png) | ![2](out/ekf_2.png) | ![3](out/ekf_3.png)|
+| ![1](out/ekf_fusion_1.png) | ![2](out/ekf_fusion_2.png) | ![3](out/ekf_fusion_3.png)|
 
 ## Unscented KF [still incomplete fusion]
 
