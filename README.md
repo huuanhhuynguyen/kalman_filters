@@ -48,9 +48,6 @@ X = [x, y, vx, vy], z_lidar = [x, y] and z_radar = [rho, phi, rho_dot]
 | --- | --- | --- |
 | ![1](out/1.png) | ![2](out/2.png) | ![3](out/3.png)|
 
-The images above show the result without any tuning on the uncertainty matrices 
-Q and R. They are simply identity matrices.
-
 ## Unscented KF
 
 [to be filled]
