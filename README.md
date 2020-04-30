@@ -1,8 +1,9 @@
 # Extended and Unscented Kalman Filters
 
-This project is based on the [chapter of sensor fusion](https://www.udacity.com/course/self-driving-car-engineer-nanodegree--nd013) of the Self-Driving Car Engineer Nanodegree from Udacity.
-Even I didn't register for the course, I learned EKF & UKF from reading articles
- to this Nanodegree. Thanks Udacity for giving me this learning experience!
+This project is self-learning experience, inspired by the
+[chapter of sensor fusion](https://www.udacity.com/course/self-driving-car-engineer-nanodegree--nd013) 
+of the Self-Driving Car Engineer Nanodegree from Udacity.
+Even I didn't register for the course, thanks Udacity for giving me this learning experience!
 
 ## Project Setting
 Radar and Lidar measurements as well as ground-truth are stored in text files 
@@ -50,25 +51,27 @@ X = [x, y, vx, vy], z_lidar = [x, y] and z_radar = [rho, phi, rho_dot]
 
 ## Unscented KF [still incomplete fusion]
 
-Each UKF looks plausible without fusion. Each UKF performs similarly well to each
-corresponding EKF without fusion.
+Without fusion, each UKF performs similarly as each EKF.
 
 |          | 1.txt | 2.txt | 3.txt |
 | ---      | ---- | --- | --- |
 | LidarUKF | ![1](out/ukf_laser_1.png) | ![2](out/ukf_laser_2.png) | ![3](out/ukf_laser_3.png)|
 | RadarUKF | ![1](out/ukf_radar_1.png) | ![2](out/ukf_radar_2.png) | ![3](out/ukf_radar_3.png)|
 
-But when I fuse Lidar UKF with Radar UKF using the fusion model above. The 
-system fails and the estimation diverges. This problem is still unsolved for me.
+However, when I fuse Lidar UKF with Radar UKF using the fusion model above. The 
+system fails and the estimation diverges. This problem is still unsolved.
 
-In my opinion, the reason is that UKF demands more accurate model than EKF, while
+In my opinion, the reason is that UKF demands a more accurate model than EKF, while
 the current constant acceleration model is not sufficiently good (this is indicated
-by a large tuned process uncertainty matrix Q). This model doesn't have any 
+by a relatively large process uncertainty matrix Q). This model doesn't have any 
 knowledge of the vehicle dynamics (i.e. the car is considered as a single moving point). 
-This problem of UKf is also adressed in this 
+The problem of UKF is also adressed in the 
 [paper](https://www.semanticscholar.org/paper/A-Robust-Adaptive-Unscented-Kalman-Filter-for-with-Zheng-Fu/d89165e037fd75bb24ef7a442ead7ec23b312460)
 Unfortunately, I don't have dynamics infomation of the vehicle in the data 
 to construct a better model.
+
+My goal is to learn EKF and UKF and experience their challenges in practice. This
+is enough until now and I would move to explore the Particle Filter.
 
 ## Basic Build Instructions
 1. Clone this repo.
