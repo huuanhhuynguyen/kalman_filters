@@ -13,7 +13,7 @@ MatrixXd compute_sigma_points(const VectorXd& muy, MatrixXd cov)
 
   for (int i = 0; i < cov.rows(); ++i) {
     if (cov(i, i) <= 0.0) {
-      throw(std::invalid_argument("Error: diagonal elements of 'cov' must be non-negative"));
+      std::cerr << "Error: diagonal elements of 'cov' must be non-negative" << std::endl;
     }
   }
 
@@ -23,14 +23,13 @@ MatrixXd compute_sigma_points(const VectorXd& muy, MatrixXd cov)
     const int n = cov.rows();
     const int lambda = 3 - n;
     cov *= (n + lambda);
-    SelfAdjointEigenSolver<MatrixXd> estimator(cov);
-    const auto sqrt = estimator.operatorSqrt();
-    //const MatrixXd sqrt = cov.llt().matrixL();
-    if ((cov - sqrt*sqrt.transpose()).norm() > 1e-9) {
-      throw(std::logic_error("Error: Either the calculation of square-root of "
-                            "covariance matrix 'cov' is wrong or the given "
-                            "'cov' has a problem. In the second case, check"
-                            "your UKF equations or UKF model pointer member."));
+    //SelfAdjointEigenSolver<MatrixXd> estimator(cov);
+    //const auto sqrt = estimator.operatorSqrt();
+    const MatrixXd sqrt = cov.llt().matrixL();
+
+    if ((cov - sqrt*sqrt.transpose()).norm() > 1e-6) {
+      std::cerr << "Error: Estimation of square root of covariance matrix 'cov'"
+                   "has a large error." << std::endl;
     }
     cov = sqrt;
   }
@@ -52,16 +51,19 @@ MatrixXd compute_sigma_points(const VectorXd& muy, MatrixXd cov)
     mean += sigma.col(i);
   }
   mean /= (2 * n + 1);
-  if ((mean - muy).norm() > 1e-9) {
-    throw(std::logic_error("Mean of all sigma points must equal 'muy'."));
+  if ((mean - muy).norm() > 1e-6) {
+    std::cerr << "Mean of all sigma points must equal 'muy'." << std::endl;
   }
 
   return sigma;
 }
 
-//TODO pass n_sigma to this function
 VectorXd compute_sigma_weights(int n)
 {
+  if (n <= 0) {
+    throw(std::invalid_argument("'n' must be a positive number."));
+  }
+
   VectorXd weights(2*n+1);
 
   const double lambda = 3 - n;
