@@ -1,6 +1,13 @@
 #include "sigma_points.h"
 #include <iostream>
 
+namespace {
+  // configuration parameters for unscented transformation
+  int _kappa = 100;
+  int _beta = 2;
+  double _alpha = 1e-3;
+}  // unamed namespace
+
 MatrixXd compute_sigma_points(const VectorXd& muy, MatrixXd cov)
 {
   if (cov.rows() != cov.cols()) {
@@ -21,12 +28,9 @@ MatrixXd compute_sigma_points(const VectorXd& muy, MatrixXd cov)
   // Note: square-root of a matrix A is the vector S if A = S * S.transpose()
   {
     const int n = cov.rows();
-    const int lambda = 3 - n;
+    const double lambda = (_alpha * _alpha) * (n + _kappa) - n;
     cov *= (n + lambda);
-    //SelfAdjointEigenSolver<MatrixXd> estimator(cov);
-    //const auto sqrt = estimator.operatorSqrt();
     const MatrixXd sqrt = cov.llt().matrixL();
-
     if ((cov - sqrt*sqrt.transpose()).norm() > 1e-6) {
       std::cerr << "Error: Estimation of square root of covariance matrix 'cov'"
                    "has a large error." << std::endl;
@@ -58,26 +62,25 @@ MatrixXd compute_sigma_points(const VectorXd& muy, MatrixXd cov)
   return sigma;
 }
 
-VectorXd compute_sigma_weights(int n)
+void compute_sigma_weights(int n, VectorXd& weights_m, VectorXd& weights_c)
 {
   if (n <= 0) {
     throw(std::invalid_argument("'n' must be a positive number."));
   }
 
-  VectorXd weights(2*n+1);
-
-  const double lambda = 3 - n;
-  weights(0) = lambda / (n + lambda);
+  const double lambda = (_alpha * _alpha) * (n + _kappa) - n;
+  weights_m(0) = lambda / (n + lambda);
   for (int i = 1; i <= 2*n; ++i) {
-    weights(i) = 0.5 / (n + lambda);
+    weights_m(i) = 0.5 / (n + lambda);
   }
 
   // output validation
-  const double sum = weights.sum();
+  const double sum = weights_m.sum();
   if (abs(sum - 1.0) > 1.0e-9) {
     // Don't throw exception because the function is called in UKF constructor
     std::cerr << "Sigma weights must sum up to 1!" << std::endl;
   }
 
-  return weights;
+  weights_c = weights_m;
+  weights_c(0) += (1 - _alpha*_alpha + _beta);
 }

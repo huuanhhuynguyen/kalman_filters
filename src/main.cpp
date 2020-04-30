@@ -14,7 +14,7 @@ enum FilterType : uint8_t {
 };
 
 // App Configuration
-Data data = Data::THREE;
+Data data = Data::TWO;
 FilterType type = FilterType::EXTENDED;
 
 int main()
@@ -34,8 +34,8 @@ int main()
   std::string file{path};
   read(file, measurement, gt);
 
-  // Initialize uncertainty matrices
   int Sx = 4;
+  // Initialize uncertainty matrices
   MatrixXd Q_in = MatrixXd::Identity(Sx, Sx) * 15;  // laser and radar share the same process, thus same process uncertainty
   MatrixXd R_in_laser = MatrixXd::Identity(2, 2) * 0.01;
   MatrixXd R_in_radar = MatrixXd::Identity(3, 3) * 0.01;

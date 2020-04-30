@@ -20,7 +20,11 @@ public:
       RadarKF{std::move(pRKF)},
       X{std::move(X0)}
   {
-    P = LaserKF->P;
+    P = MatrixXd::Zero(X.size(), X.size());
+    MatrixXd Pxx = X * X.transpose();
+    for (int i = 0; i < X.size(); ++i) {
+      P(i, i) = Pxx(i, i);
+    }
   }
 
   std::vector<Position> process(const std::vector<Sample>& measurement)

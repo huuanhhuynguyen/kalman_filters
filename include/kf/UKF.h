@@ -8,9 +8,10 @@
 
 /**
  * Unscented Kalman Filter
- * Paper: https://www.seas.harvard.edu/courses/cs281/papers/unscented.pdf
- * Hints for programming UKF:
+ * Sources:
+ * https://www.seas.harvard.edu/courses/cs281/papers/unscented.pdf
  * https://towardsdatascience.com/the-unscented-kalman-filter-anything-ekf-can-do-i-can-do-it-better-ce7c773cf88d
+ * (my favorite) http://ais.informatik.uni-freiburg.de/teaching/ws12/mapping/pdf/slam05-ukf.pdf
  */
 class UKF : public IKalmanFilter {
 public:
@@ -33,7 +34,10 @@ public:
 
     n_sigma = 2*Sx + 1;
     sigma = MatrixXd::Zero(Sx, n_sigma);
-    weights = compute_sigma_weights(Sx);
+
+    weights_m = VectorXd(2*Sx+1);
+    weights_c = VectorXd(2*Sx+1);
+    compute_sigma_weights(Sx, weights_m, weights_c);
   }
 
   void update(const VectorXd& z, const VectorXd& u) override;
@@ -49,7 +53,8 @@ private:
 
   int n_sigma;       // number of sigma points
   MatrixXd sigma;    // sigma points
-  VectorXd weights;  // weights for sigma points
+  VectorXd weights_m;  // weights for sigma points
+  VectorXd weights_c;  // weights for sigma points
 };
 
 #endif //KALMAN_FILTERS_CPP_UKF_H

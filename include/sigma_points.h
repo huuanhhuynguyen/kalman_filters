@@ -12,14 +12,12 @@ using namespace Eigen;
  * @param muy mean vector of the distribution
  * @param cov covariance matrix of the distribution
  * @return sigma points
- *
- * Note: lambda is chosen as 3 - n, where n is size of muy (i.e. system dimension).
  */
 MatrixXd compute_sigma_points(const VectorXd& muy, MatrixXd cov);
 
 /**
  * Return weights of sigma points of a n-dimension Gaussian distribution.
  */
-VectorXd compute_sigma_weights(int n);
+void compute_sigma_weights(int n, VectorXd& weights_m, VectorXd& weights_c);
 
 #endif //KALMAN_FILTERS_CPP_SIGMA_POINTS_H

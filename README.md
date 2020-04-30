@@ -46,11 +46,29 @@ X = [x, y, vx, vy], z_lidar = [x, y] and z_radar = [rho, phi, rho_dot]
 
 | 1.txt | 2.txt | 3.txt |
 | --- | --- | --- |
-| ![1](out/1.png) | ![2](out/2.png) | ![3](out/3.png)|
+| ![1](out/ekf_1.png) | ![2](out/ekf_2.png) | ![3](out/ekf_3.png)|
 
-## Unscented KF
+## Unscented KF [still incomplete fusion]
 
-[to be filled]
+Each UKF looks plausible without fusion. Each UKF performs similarly well to each
+corresponding EKF without fusion.
+
+|          | 1.txt | 2.txt | 3.txt |
+| ---      | ---- | --- | --- |
+| LidarUKF | ![1](out/ukf_laser_1.png) | ![2](out/ukf_laser_2.png) | ![3](out/ukf_laser_3.png)|
+| RadarUKF | ![1](out/ukf_radar_1.png) | ![2](out/ukf_radar_2.png) | ![3](out/ukf_radar_3.png)|
+
+But when I fuse Lidar UKF with Radar UKF using the fusion model above. The 
+system fails and the estimation diverges. This problem is still unsolved for me.
+
+In my opinion, the reason is that UKF demands more accurate model than EKF, while
+the current constant acceleration model is not sufficiently good (this is indicated
+by a large tuned process uncertainty matrix Q). This model doesn't have any 
+knowledge of the vehicle dynamics (i.e. the car is considered as a single moving point). 
+This problem of UKf is also adressed in this 
+[paper](https://www.semanticscholar.org/paper/A-Robust-Adaptive-Unscented-Kalman-Filter-for-with-Zheng-Fu/d89165e037fd75bb24ef7a442ead7ec23b312460)
+Unfortunately, I don't have dynamics infomation of the vehicle in the data 
+to construct a better model.
 
 ## Basic Build Instructions
 1. Clone this repo.
