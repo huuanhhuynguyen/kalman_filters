@@ -20,8 +20,7 @@ public:
       RadarKF{std::move(pRKF)},
       X{std::move(X0)}
   {
-    auto Sx = X.rows();
-    P = MatrixXd::Identity(Sx, Sx);
+    P = LaserKF->P;
   }
 
   std::vector<Position> process(const std::vector<Sample>& measurement)
@@ -32,9 +31,9 @@ public:
 
     for (int i = 1; i < measurement.size(); ++i)
     {
-      auto& m = measurement[i];
+      const auto& m = measurement[i];
       double dt = double(measurement[i].t - measurement[i-1].t) / 1.0e6;
-      auto z = m.data;
+      const auto& z = m.data;
 
       if (m.sensor == Sample::Sensor::LIDAR) {
         LaserKF->X = X;

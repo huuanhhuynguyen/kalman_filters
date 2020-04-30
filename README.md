@@ -57,7 +57,5 @@ X = [x, y, vx, vy], z_lidar = [x, y] and z_radar = [rho, phi, rho_dot]
 2. Make a build directory: `mkdir build && cd build`
 3. Compile: `cmake .. && make`
 4. Run it: `./kalman_filters_cpp`
-
-[TODOS run with args]
  
 
