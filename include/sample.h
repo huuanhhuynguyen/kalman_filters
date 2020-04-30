@@ -5,7 +5,7 @@
 #include <fstream>
 #include "Eigen/Dense"
 
-using Timestamp = unsigned long;
+using Timestamp = long long;
 
 struct Sample {
   Timestamp t;
