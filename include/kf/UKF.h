@@ -35,8 +35,8 @@ public:
     n_sigma = 2*Sx + 1;
     sigma = MatrixXd::Zero(Sx, n_sigma);
 
-    weights_m = VectorXd(2*Sx+1);
-    weights_c = VectorXd(2*Sx+1);
+    weights_m = VectorXd(n_sigma);
+    weights_c = VectorXd(n_sigma);
     compute_sigma_weights(Sx, weights_m, weights_c);
   }
 

@@ -32,12 +32,11 @@ VectorXd UKF::predict(const VectorXd &u, double dt)
   sigma = compute_sigma_points(X, P);
 
   // sigma_p1 = f(sigma)
-  // X = Sum_i(weights_i * f(sigma_p1_i))
-  X.fill(0.0);
   for (int i = 0; i < n_sigma; ++i) {
     sigma.col(i) = pM->f(sigma.col(i), u, dt);
-    X += weights_m(i) * sigma.col(i);
   }
+
+  X = sigma * weights_m;
 
   // P = Q + Sum_i(weights_i * (sigma_p1_i - X) * (sigma_p1_i - X).transpose())
   P = Q;
