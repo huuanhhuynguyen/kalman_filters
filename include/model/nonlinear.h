@@ -32,7 +32,7 @@ public:
 
   MatrixXd J_f(const VectorXd& X0) const override { return F; }
 
-  /** Returns Jacobian matrix of H at X0 */
+  /** Returns Jacobian matrix of h() at X0 */
   MatrixXd J_h(const VectorXd& X0) const override;
 
 protected:
