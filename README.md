@@ -100,9 +100,14 @@ In my opinion, the reason is that UKF demands a more accurate model than EKF, wh
 the current constant acceleration model is not sufficiently good (this is indicated
 by a relatively large process uncertainty matrix Q). This model doesn't have any 
 knowledge of the vehicle dynamics (i.e. the car is considered as a single moving point). 
-The problem of UKF is also addressed
-[here](https://www.semanticscholar.org/paper/A-Robust-Adaptive-Unscented-Kalman-Filter-for-with-Zheng-Fu/d89165e037fd75bb24ef7a442ead7ec23b312460).
 Unfortunately, I don't have the dynamics infomation of the vehicle in the data 
 to construct a better model.
+
+The problem of UKF is also addressed
+[here](https://www.semanticscholar.org/paper/A-Robust-Adaptive-Unscented-Kalman-Filter-for-with-Zheng-Fu/d89165e037fd75bb24ef7a442ead7ec23b312460):
+> Abstract: The Unscented Kalman filter (UKF) may suffer from performance degradation
+> and even divergence while mismatch between the noise distribution assumed as a
+> priori by users and the actual ones in a real nonlinear system.
+
  
 
