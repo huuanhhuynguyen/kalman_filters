@@ -1,16 +1,31 @@
 # Extended and Unscented Kalman Filters
 
-This project is self-learning experience, inspired by the
+This project is a self-learning experience, inspired by the
 [chapter of sensor fusion](https://www.udacity.com/course/self-driving-car-engineer-nanodegree--nd013) 
 of the Self-Driving Car Engineer Nanodegree from Udacity.
-Even I didn't register for the course, thanks Udacity for giving me this learning experience!
+I haven't register for the course, but thanks Udacity for giving me this learning experience! :kissing_heart:
 
 ## Project Setting
-Radar and Lidar measurements as well as ground-truth are stored in text files 
-(in folder `data/`). Kalman Filters are used to fuse the measurements from two 
-sensors and result in the estimations.
+Radar and Lidar measurements as well as ground-truth data are stored as text files 
+in the project folder `data/`). To fuse the measurements in to final estimations,
+I use (Extended / Unscented) Kalman Filters.
 
-## Fusion Model
+## Basic Build Instructions
+1. Clone this repo.
+2. Make a build directory: `mkdir build && cd build`
+3. Compile: `cmake .. && make`
+4. Run it: `./kalman_filters_cpp` will show the result of EKF fusion on one data example.
+
+## Further Explanation
+
+### Progress
+
+- [x] EKF runs separately on Lidar or Radar measurement
+- [x] Fusion of two EKFs
+- [x] UKF runs separately on Lidar or Radar measurement
+- [ ] Fusion of two UKFs
+
+### Fusion Model
 
 Lidar KF and Radar KF process the Lidar and Radar measurement, respectively.
 
@@ -20,7 +35,8 @@ To fuse the estimation, the state X and covariance matrix P are shared between
 two filters. It is also possible to share the process uncertainty Q in addition 
 to X and P.
 
-## System Model
+### System Model
+
 I simply use a constant acceleration model for the KFs.
 ```
 [x1 ]   [1 T 0 0]   [x ]
@@ -30,26 +46,33 @@ I simply use a constant acceleration model for the KFs.
 ```
 But any other model that supports the interface in `\include\model\model.h` can be used.
 
-## Linear KF
+### Linear KF
 
 It is possible to use only linear KFs for fusing the measurements. In that case,
 the state X = [x, y, vx, vy] and the measurement for both sensor z = [x, y].
 
-For it, just extract the position measurement from each sensor. But to make use
-of velocity measurement from Radar, EKF and UKF should be used because a 
-non-linearity now presents.
+For it, just extract the position measurement from each sensor.
 
-## Extended KF
+### Extended KF
 
-I use a linear KF for processing the Lidar measurement and EKF for 
-Radar. That means,
-X = [x, y, vx, vy], z_lidar = [x, y] and z_radar = [rho, phi, rho_dot]
+To make use of velocity measurement from Radar, an EKF is needed because the 
+measurement equation of Radar is non-linear:
+```
+rho = x*x + y*y
+phi = atan2(y, x)
+phi_dot = (x*vx + y*vy) / (x*x + y*y)
+```
+
+A linear KF is still used for processing Lidar. Indeed, linear KF is a special case
+of EKF where the process and measurement functions `f(X)` and `h(X)` are linear.
+
+Result:
 
 | 1.txt | 2.txt | 3.txt |
 | --- | --- | --- |
 | ![1](out/ekf_fusion_1.png) | ![2](out/ekf_fusion_2.png) | ![3](out/ekf_fusion_3.png)|
 
-## Unscented KF [still incomplete fusion]
+### Unscented KF [still incomplete fusion]
 
 Without fusion, each UKF performs similarly as each EKF.
 
@@ -65,18 +88,9 @@ In my opinion, the reason is that UKF demands a more accurate model than EKF, wh
 the current constant acceleration model is not sufficiently good (this is indicated
 by a relatively large process uncertainty matrix Q). This model doesn't have any 
 knowledge of the vehicle dynamics (i.e. the car is considered as a single moving point). 
-The problem of UKF is also adressed in the 
-[paper](https://www.semanticscholar.org/paper/A-Robust-Adaptive-Unscented-Kalman-Filter-for-with-Zheng-Fu/d89165e037fd75bb24ef7a442ead7ec23b312460)
-Unfortunately, I don't have dynamics infomation of the vehicle in the data 
+The problem of UKF is also adressed
+[here](https://www.semanticscholar.org/paper/A-Robust-Adaptive-Unscented-Kalman-Filter-for-with-Zheng-Fu/d89165e037fd75bb24ef7a442ead7ec23b312460).
+Unfortunately, I don't have the dynamics infomation of the vehicle in the data 
 to construct a better model.
-
-My goal is to learn EKF and UKF and experience their challenges in practice. This
-is enough until now and I would move to explore the Particle Filter.
-
-## Basic Build Instructions
-1. Clone this repo.
-2. Make a build directory: `mkdir build && cd build`
-3. Compile: `cmake .. && make`
-4. Run it: `./kalman_filters_cpp`
  
 
