@@ -94,7 +94,7 @@ Without fusion, each UKF performs similarly as each EKF.
 | RadarUKF | ![1](out/ukf_radar_1.png) | ![2](out/ukf_radar_2.png) | ![3](out/ukf_radar_3.png)|
 
 However, when I fuse Lidar UKF with Radar UKF using the fusion model above. The 
-system fails and the estimation diverges. This problem is still unsolved.
+system fails and the estimation diverges. This problem is **still unsolved**.
 
 In my opinion, the reason is that UKF demands a more accurate model than EKF, while
 the current constant acceleration model is not sufficiently good (this is indicated
