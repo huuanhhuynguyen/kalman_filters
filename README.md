@@ -7,12 +7,6 @@ I didn't register for the course, but through reading articles and source code
 of Udacity participants, I could understand the theory and implement the filters 
 on my own. Thanks Udacity for this learning experience! :kissing_heart:
 
-## Project Setting
-
-Radar and Lidar measurements as well as ground-truth data are stored as text files 
-in the project folder `data/`). To fuse the measurements in to final estimations,
-I use (Extended / Unscented) Kalman Filters.
-
 ## Basic Build Instructions
 
 1. Clone this repo.
@@ -20,16 +14,21 @@ I use (Extended / Unscented) Kalman Filters.
 3. Compile: `cmake .. && make`
 4. Run it: `./kalman_filters_cpp` will show the result of EKF fusion on one data example.
 
-Change the following lines in `src/main.cpp` if you want to run another example 
+Change the following lines in `src/main.cpp` to run with another data example 
 or with UKF:
 ```
 // App Configuration
 Data data = Data::THREE;  // or Data::ONE, Data::TWO
 FilterType type = FilterType::EXTENDED;  // or FilterType::UNSCENTED
 ```
-(I refrain from parsing main arguments due to readability and type safety)
 
 ## Further Explanation
+
+### Project Setting
+
+Radar and Lidar measurements as well as ground-truth data are stored as text files 
+in the project folder `data/`). To fuse the measurements in to final estimations,
+(Extended / Unscented) Kalman Filters are used.
 
 ### Progress
 
