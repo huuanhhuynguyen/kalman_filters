@@ -3,7 +3,7 @@
 This project is a self-learning experience, inspired by the
 [chapter of sensor fusion](https://www.udacity.com/course/self-driving-car-engineer-nanodegree--nd013) 
 of the Self-Driving Car Engineer Nanodegree from Udacity.
-I haven't register for the course, but thanks Udacity for giving me this learning experience! :kissing_heart:
+I didn't register for the course, but thanks Udacity for giving me this learning experience! :kissing_heart:
 
 ## Project Setting
 Radar and Lidar measurements as well as ground-truth data are stored as text files 
