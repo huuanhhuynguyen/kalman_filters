@@ -5,17 +5,12 @@
 #include "fusion.h"
 #include "visualize.h"
 
-enum Data : uint8_t {
-  ONE, TWO, THREE,
-};
-
-enum FilterType : uint8_t {
-  EXTENDED, UNSCENTED,
-};
+enum Data : uint8_t { ONE, TWO, THREE, };
+enum FilterType : uint8_t { EXTENDED, UNSCENTED, };
 
 // App Configuration
-Data data = Data::TWO;
-FilterType type = FilterType::EXTENDED;
+Data data = Data::THREE;  // or Data::ONE, Data::TWO
+FilterType type = FilterType::EXTENDED;  // or FilterType::UNSCENTED
 
 int main()
 {
