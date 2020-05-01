@@ -17,7 +17,6 @@ public:
   explicit RadarModel() {
     F = MatrixXd::Identity(4, 4);
     G = MatrixXd::Zero(4, 1);
-    H = MatrixXd::Zero(3, 4);
   }
 
   VectorXd f(const VectorXd& X, const VectorXd& U, double dt) const override {
@@ -39,7 +38,6 @@ public:
 protected:
   mutable MatrixXd F;  // Transition Matrix
   mutable MatrixXd G;  // Input Matrix
-  MatrixXd H;          // Output Matrix
 
   static MatrixXd _update_F(double dt) {
     MatrixXd F_new(4, 4);
