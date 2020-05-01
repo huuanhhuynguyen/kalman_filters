@@ -84,7 +84,7 @@ Result:
 | --- | --- | --- |
 | ![1](out/ekf_fusion_1.png) | ![2](out/ekf_fusion_2.png) | ![3](out/ekf_fusion_3.png)|
 
-### Unscented KF [still incomplete fusion]
+### Unscented KF
 
 Without fusion, each UKF performs similarly as each EKF.
 
