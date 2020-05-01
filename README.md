@@ -3,7 +3,9 @@
 This project is a self-learning experience, inspired by the
 [chapter of sensor fusion](https://www.udacity.com/course/self-driving-car-engineer-nanodegree--nd013) 
 of the Self-Driving Car Engineer Nanodegree from Udacity.
-I didn't register for the course, but thanks Udacity for giving me this learning experience! :kissing_heart:
+I didn't register for the course, but through reading articles and source code
+of Udacity participants, I could understand the theory and implement the filters 
+on my own. Thanks Udacity for this learning experience! :kissing_heart:
 
 ## Project Setting
 Radar and Lidar measurements as well as ground-truth data are stored as text files 
@@ -88,7 +90,7 @@ In my opinion, the reason is that UKF demands a more accurate model than EKF, wh
 the current constant acceleration model is not sufficiently good (this is indicated
 by a relatively large process uncertainty matrix Q). This model doesn't have any 
 knowledge of the vehicle dynamics (i.e. the car is considered as a single moving point). 
-The problem of UKF is also adressed
+The problem of UKF is also addressed
 [here](https://www.semanticscholar.org/paper/A-Robust-Adaptive-Unscented-Kalman-Filter-for-with-Zheng-Fu/d89165e037fd75bb24ef7a442ead7ec23b312460).
 Unfortunately, I don't have the dynamics infomation of the vehicle in the data 
 to construct a better model.
