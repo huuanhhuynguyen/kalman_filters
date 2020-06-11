@@ -1,11 +1,8 @@
 # Extended and Unscented Kalman Filters
 
-This project is a self-learning experience, inspired by the
+This project implement extended and extended kalman filters. The test data comes from
 [chapter of sensor fusion](https://www.udacity.com/course/self-driving-car-engineer-nanodegree--nd013) 
 of the Self-Driving Car Engineer Nanodegree from Udacity.
-I didn't register for the course, but through reading articles and source code
-of Udacity participants, I could understand the theory and implement the filters 
-on my own. Thanks Udacity for this learning experience! :kissing_heart:
 
 ## Basic Setup & Build Instructions
 
@@ -54,6 +51,8 @@ To fuse the estimation, the state X and covariance matrix P are shared between
 two filters. It is also possible to share the process uncertainty Q in addition 
 to X and P.
 
+<details><summary> Further details </summary>
+<p>
 ### System Model
 
 I simply use a constant acceleration model for the KFs.
@@ -115,6 +114,10 @@ The problem of UKF is also addressed
 > Abstract: The Unscented Kalman filter (UKF) may suffer from performance degradation
 > and even divergence while mismatch between the noise distribution assumed as a
 > priori by users and the actual ones in a real nonlinear system.
+
+
+</p>
+</details>
 
  
 
