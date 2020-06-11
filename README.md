@@ -10,9 +10,11 @@ on my own. Thanks Udacity for this learning experience! :kissing_heart:
 ## Basic Setup & Build Instructions
 
 ### Setup
-1. Clone this repo.
-2. Clone `git clone https://github.com/lava/matplotlib-cpp.git`.
-3. Install `sudo apt-get install python-matplotlib python-numpy python2.7-dev`
+1. Clone this project `git clone https://github.com/huuanhhuynguyen/kalman_filters.git`
+2. Clone matplotlib-cpp library `git clone https://github.com/lava/matplotlib-cpp.git`
+3. Install dependencies `sudo apt-get install python-matplotlib python-numpy`
+
+Note: See https://github.com/lava/matplotlib-cpp for further instructions on installation of matplotlib-cpp.
 
 ### Build
 1. Make a build directory: `mkdir build && cd build`
