@@ -7,12 +7,17 @@ I didn't register for the course, but through reading articles and source code
 of Udacity participants, I could understand the theory and implement the filters 
 on my own. Thanks Udacity for this learning experience! :kissing_heart:
 
-## Basic Build Instructions
+## Basic Setup & Build Instructions
 
+### Setup
 1. Clone this repo.
-2. Make a build directory: `mkdir build && cd build`
-3. Compile: `cmake .. && make`
-4. Run it: `./kalman_filters_cpp` will show the result of EKF fusion on one data example.
+2. Clone `git clone https://github.com/lava/matplotlib-cpp.git`.
+3. Install `sudo apt-get install python-matplotlib python-numpy python2.7-dev`
+
+### Build
+1. Make a build directory: `mkdir build && cd build`
+2. Compile: `cmake .. && make`
+3. Run it: `./kalman_filters_cpp` will show the result of EKF fusion on one data example.
 
 Change the following lines in `src/main.cpp` to run with another data example 
 or with UKF:
