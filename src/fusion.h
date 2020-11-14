@@ -5,6 +5,7 @@
 #include "kf/KF.h"
 #include <memory>
 #include <iostream>
+#include <utility>
 
 struct Position {
   double x, y;
@@ -15,8 +16,8 @@ class Fusion {
 public:
   using KF = IKalmanFilter;
 
-  explicit Fusion(KF& pLKF, KF& pRKF, const VectorXd& X0)
-    : LaserKF{pLKF}, RadarKF{pRKF}, X{X0}
+  explicit Fusion(KF& pLKF, KF& pRKF, VectorXd  X0)
+    : LaserKF{pLKF}, RadarKF{pRKF}, X{std::move(X0)}
   {
     P = MatrixXd::Zero(X.size(), X.size());
     MatrixXd Pxx = X * X.transpose();

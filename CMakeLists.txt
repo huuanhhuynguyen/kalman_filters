@@ -5,7 +5,7 @@ set(THIS kalman_filters_cpp)
 project(${THIS})
 set(CMAKE_CXX_STANDARD 14)
 
-include_directories(include)
+include_directories(src)
 include_directories(Eigen)
 
 set(SOURCES src/main.cpp
