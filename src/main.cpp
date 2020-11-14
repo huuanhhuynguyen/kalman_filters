@@ -50,7 +50,7 @@ int main()
   VectorXd X0 = VectorXd::Ones(Sx);
 
   // Update and fuse prediction
-  Fusion fusion(std::move(pLKF), std::move(pRKF), X0);
+  Fusion fusion(*pLKF, *pRKF, X0);
   auto pred_pos = fusion.process(measurement);
 
   // Visualize measurement, estimates & ground-truth

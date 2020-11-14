@@ -13,12 +13,10 @@ struct Position {
 
 class Fusion {
 public:
-  using KFPtr = std::unique_ptr<IKalmanFilter>;
+  using KF = IKalmanFilter;
 
-  explicit Fusion(KFPtr pLKF, KFPtr pRKF, VectorXd X0)
-    : LaserKF{std::move(pLKF)},
-      RadarKF{std::move(pRKF)},
-      X{std::move(X0)}
+  explicit Fusion(KF& pLKF, KF& pRKF, const VectorXd& X0)
+    : LaserKF{pLKF}, RadarKF{pRKF}, X{X0}
   {
     P = MatrixXd::Zero(X.size(), X.size());
     MatrixXd Pxx = X * X.transpose();
@@ -40,17 +38,17 @@ public:
       const auto& z = m.data;
 
       if (m.sensor == Sample::Sensor::LIDAR) {
-        LaserKF->X = X;
-        LaserKF->P = P;
-        LaserKF->update(z, u);
-        X = LaserKF->predict(u, dt);
-        P = LaserKF->P;
+        LaserKF.X = X;
+        LaserKF.P = P;
+        LaserKF.update(z, u);
+        X = LaserKF.predict(u, dt);
+        P = LaserKF.P;
       } else {
-        RadarKF->X = X;
-        RadarKF->P = P;
-        RadarKF->update(z, u);
-        X = RadarKF->predict(u, dt);
-        P = RadarKF->P;
+        RadarKF.X = X;
+        RadarKF.P = P;
+        RadarKF.update(z, u);
+        X = RadarKF.predict(u, dt);
+        P = RadarKF.P;
       }
       positions.emplace_back(X[0], X[2]);
     }
@@ -58,7 +56,8 @@ public:
   }
 
 private:
-  KFPtr LaserKF, RadarKF;
+  IKalmanFilter& LaserKF;
+  IKalmanFilter& RadarKF;
   VectorXd X;  // Current State
   MatrixXd P;  // Covariance Matrix
 };
