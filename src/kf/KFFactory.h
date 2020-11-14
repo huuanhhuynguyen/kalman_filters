@@ -9,7 +9,7 @@ class KFFactory {
 public:
   using KFPtr = std::unique_ptr<IKalmanFilter>;
 
-  static KFPtr manufacture_ekf(std::unique_ptr<IModelEKF> pM,
+  static KFPtr manufacture_ekf(std::unique_ptr<ILinearizableModel> pM,
                                const MatrixXd& Q_in,
                                const MatrixXd& R_in) {
     return std::make_unique<EKF>(std::move(pM), Q_in, R_in);

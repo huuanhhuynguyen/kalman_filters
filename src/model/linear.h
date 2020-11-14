@@ -9,7 +9,7 @@
  *   z  = H * x
  * Linearization of f(x) and g(x) simply returns F and G.
  */
-class ILinearModel : public IModelEKF {
+class ILinearModel : public ILinearizableModel {
 public:
   VectorXd f(const VectorXd& X, const VectorXd& U, double dt) const override {
     F = _update_F(dt);

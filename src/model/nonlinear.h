@@ -12,7 +12,7 @@
  *   vx = dx/dt = rho_dot * cos(phi) - rho * sin(phi)
  *   vy = dy/dt = rho_dot * sin(phi) + rho * cos(phi)
  */
-class RadarModel : public IModelEKF {
+class RadarModel : public ILinearizableModel {
 public:
   explicit RadarModel() {
     F = MatrixXd::Identity(4, 4);

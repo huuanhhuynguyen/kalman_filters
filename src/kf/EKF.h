@@ -22,7 +22,7 @@
  */
 class EKF : public IKalmanFilter {
 public:
-  using MPtr = std::unique_ptr<IModelEKF>;
+  using MPtr = std::unique_ptr<ILinearizableModel>;
 
   explicit EKF(MPtr pModel,
                const MatrixXd& Q_in,
